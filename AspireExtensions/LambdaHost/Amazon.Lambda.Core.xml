@@ -1,0 +1,548 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Amazon.Lambda.Core</name>
+    </assembly>
+    <members>
+        <member name="T:Amazon.Lambda.Core.IClientApplication">
+            <summary>
+             Information about the client application that invoked the Lambda function.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.Core.IClientApplication.AppPackageName">
+            <summary>
+            The application's package name.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.Core.IClientApplication.AppTitle">
+            <summary>
+            The application's title.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.Core.IClientApplication.AppVersionCode">
+            <summary>
+            The application's version code.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.Core.IClientApplication.AppVersionName">
+            <summary>
+            The application's version.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.Core.IClientApplication.InstallationId">
+            <summary>
+            The application's installation id.
+            </summary>
+        </member>
+        <member name="T:Amazon.Lambda.Core.IClientContext">
+            <summary>
+            Information about client configuration and execution environment.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.Core.IClientContext.Environment">
+            <summary>
+            Environment information provided by mobile SDK. 
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.Core.IClientContext.Client">
+            <summary>
+            The client information provided by the AWS Mobile SDK.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.Core.IClientContext.Custom">
+            <summary>
+            Custom values set by the client application.
+            </summary>
+        </member>
+        <member name="T:Amazon.Lambda.Core.ICognitoIdentity">
+            <summary>
+            Information related to Amazon Congnito identities.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.Core.ICognitoIdentity.IdentityId">
+            <summary>
+            The Amazon Cognito identity ID.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.Core.ICognitoIdentity.IdentityPoolId">
+            <summary>
+            The Amazon Cognito identity pool ID.
+            </summary>
+        </member>
+        <member name="T:Amazon.Lambda.Core.ILambdaContext">
+            <summary>
+            Object that allows you to access useful information available within
+            the Lambda execution environment.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.Core.ILambdaContext.AwsRequestId">
+            <summary>
+            The AWS request ID associated with the request.
+            This is the same ID returned to the client that called invoke().
+            This ID is reused for retries on the same request.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.Core.ILambdaContext.ClientContext">
+            <summary>
+            Information about the client application and device when invoked
+            through the AWS Mobile SDK. It can be null.
+            Client context provides client information such as client ID,
+            application title, version name, version code, and the application
+            package name.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.Core.ILambdaContext.FunctionName">
+            <summary>
+            Name of the Lambda function that is running.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.Core.ILambdaContext.FunctionVersion">
+            <summary>
+            The Lambda function version that is executing.
+            If an alias is used to invoke the function, then this will be
+            the version the alias points to.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.Core.ILambdaContext.Identity">
+            <summary>
+            Information about the Amazon Cognito identity provider when
+            invoked through the AWS Mobile SDK.
+            Can be null.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.Core.ILambdaContext.InvokedFunctionArn">
+            <summary>
+            The ARN used to invoke this function.
+            It can be function ARN or alias ARN.
+            An unqualified ARN executes the $LATEST version and aliases execute
+            the function version they are pointing to.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.Core.ILambdaContext.Logger">
+            <summary>
+            Lambda logger associated with the Context object.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.Core.ILambdaContext.LogGroupName">
+            <summary>
+            The CloudWatch log group name associated with the invoked function.
+            It can be null if the IAM user provided does not have permission for
+            CloudWatch actions.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.Core.ILambdaContext.LogStreamName">
+            <summary>
+            The CloudWatch log stream name for this function execution.
+            It can be null if the IAM user provided does not have permission
+            for CloudWatch actions.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.Core.ILambdaContext.MemoryLimitInMB">
+            <summary>
+            Memory limit, in MB, you configured for the Lambda function.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.Core.ILambdaContext.RemainingTime">
+            <summary>
+            Remaining execution time till the function will be terminated.
+            At the time you create the Lambda function you set maximum time
+            limit, at which time AWS Lambda will terminate the function 
+            execution.
+            Information about the remaining time of function execution can be
+            used to specify function behavior when nearing the timeout.
+            </summary>
+        </member>
+        <member name="T:Amazon.Lambda.Core.LogLevel">
+            <summary>
+            Log Level for logging messages
+            </summary>
+        </member>
+        <member name="F:Amazon.Lambda.Core.LogLevel.Trace">
+            <summary>
+            Trace level logging
+            </summary>
+        </member>
+        <member name="F:Amazon.Lambda.Core.LogLevel.Debug">
+            <summary>
+            Debug level logging
+            </summary>
+        </member>
+        <member name="F:Amazon.Lambda.Core.LogLevel.Information">
+            <summary>
+            Information level logging
+            </summary>
+        </member>
+        <member name="F:Amazon.Lambda.Core.LogLevel.Warning">
+            <summary>
+            Warning level logging
+            </summary>
+        </member>
+        <member name="F:Amazon.Lambda.Core.LogLevel.Error">
+            <summary>
+            Error level logging
+            </summary>
+        </member>
+        <member name="F:Amazon.Lambda.Core.LogLevel.Critical">
+            <summary>
+            Critical level logging
+            </summary>
+        </member>
+        <member name="T:Amazon.Lambda.Core.ILambdaLogger">
+            <summary>
+            Lambda runtime logger.
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.Core.ILambdaLogger.Log(System.String)">
+            <summary>
+            Logs a message to AWS CloudWatch Logs.
+            
+            Logging will not be done:
+             If the role provided to the function does not have sufficient permissions.
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Amazon.Lambda.Core.ILambdaLogger.LogLine(System.String)">
+            <summary>
+            Logs a message, followed by the current line terminator, to AWS CloudWatch Logs.
+            
+            Logging will not be done:
+             If the role provided to the function does not have sufficient permissions.
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Amazon.Lambda.Core.ILambdaLogger.Log(System.String,System.String)">
+            <summary>
+            Log message categorized by the given log level
+            <para>
+            To configure the minimum log level set the AWS_LAMBDA_HANDLER_LOG_LEVEL environment variable. The value should be set
+            to one of the values in the LogLevel enumeration. The default minimum log level is "Information".
+            </para>
+            </summary>
+            <param name="level"></param>
+            <param name="message"></param>
+        </member>
+        <member name="M:Amazon.Lambda.Core.ILambdaLogger.Log(Amazon.Lambda.Core.LogLevel,System.String)">
+            <summary>
+            Log message categorized by the given log level
+            <para>
+            To configure the minimum log level set the AWS_LAMBDA_HANDLER_LOG_LEVEL environment variable. The value should be set
+            to one of the values in the LogLevel enumeration. The default minimum log level is "Information".
+            </para>
+            </summary>
+            <param name="level"></param>
+            <param name="message"></param>
+        </member>
+        <member name="M:Amazon.Lambda.Core.ILambdaLogger.LogTrace(System.String)">
+            <summary>
+            Log trace message
+            <para>
+            To configure the minimum log level set the AWS_LAMBDA_HANDLER_LOG_LEVEL environment variable. The value should be set
+            to one of the values in the LogLevel enumeration. The default minimum log level is "Information".
+            </para>
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Amazon.Lambda.Core.ILambdaLogger.LogDebug(System.String)">
+            <summary>
+            Log debug message
+            <para>
+            To configure the minimum log level set the AWS_LAMBDA_HANDLER_LOG_LEVEL environment variable. The value should be set
+            to one of the values in the LogLevel enumeration. The default minimum log level is "Information".
+            </para>
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Amazon.Lambda.Core.ILambdaLogger.LogInformation(System.String)">
+            <summary>
+            Log information message
+            <para>
+            To configure the minimum log level set the AWS_LAMBDA_HANDLER_LOG_LEVEL environment variable. The value should be set
+            to one of the values in the LogLevel enumeration. The default minimum log level is "Information".
+            </para>
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Amazon.Lambda.Core.ILambdaLogger.LogWarning(System.String)">
+            <summary>
+            Log warning message
+            <para>
+            To configure the minimum log level set the AWS_LAMBDA_HANDLER_LOG_LEVEL environment variable. The value should be set
+            to one of the values in the LogLevel enumeration. The default minimum log level is "Information".
+            </para>
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Amazon.Lambda.Core.ILambdaLogger.LogError(System.String)">
+            <summary>
+            Log error message
+            <para>
+            To configure the minimum log level set the AWS_LAMBDA_HANDLER_LOG_LEVEL environment variable. The value should be set
+            to one of the values in the LogLevel enumeration. The default minimum log level is "Information".
+            </para>
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Amazon.Lambda.Core.ILambdaLogger.LogCritical(System.String)">
+            <summary>
+            Log critical message
+            <para>
+            To configure the minimum log level set the AWS_LAMBDA_HANDLER_LOG_LEVEL environment variable. The value should be set
+            to one of the values in the LogLevel enumeration. The default minimum log level is "Information".
+            </para>
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Amazon.Lambda.Core.ILambdaLogger.Log(System.String,System.String,System.Object[])">
+            <summary>
+            Log message categorized by the given log level
+            <para>
+            To configure the minimum log level set the AWS_LAMBDA_HANDLER_LOG_LEVEL environment variable. The value should be set
+            to one of the values in the LogLevel enumeration. The default minimum log level is "Information".
+            </para>
+            </summary>
+            <param name="level">Log level of the message.</param>
+            <param name="message">Message to log.</param>
+            <param name="args">Values to be replaced in log messages that are parameterized.</param>
+        </member>
+        <member name="M:Amazon.Lambda.Core.ILambdaLogger.Log(System.String,System.Exception,System.String,System.Object[])">
+            <summary>
+            Log message categorized by the given log level
+            <para>
+            To configure the minimum log level set the AWS_LAMBDA_HANDLER_LOG_LEVEL environment variable. The value should be set
+            to one of the values in the LogLevel enumeration. The default minimum log level is "Information".
+            </para>
+            </summary>
+            <param name="level">Log level of the message.</param>
+            <param name="exception">Exception to include with the logging.</param>
+            <param name="message">Message to log.</param>
+            <param name="args">Values to be replaced in log messages that are parameterized.</param>
+        </member>
+        <member name="M:Amazon.Lambda.Core.ILambdaLogger.Log(Amazon.Lambda.Core.LogLevel,System.String,System.Object[])">
+            <summary>
+            Log message categorized by the given log level
+            <para>
+            To configure the minimum log level set the AWS_LAMBDA_HANDLER_LOG_LEVEL environment variable. The value should be set
+            to one of the values in the LogLevel enumeration. The default minimum log level is "Information".
+            </para>
+            </summary>
+            <param name="level">Log level of the message.</param>
+            <param name="message">Message to log.</param>
+            <param name="args">Values to be replaced in log messages that are parameterized.</param>
+        </member>
+        <member name="M:Amazon.Lambda.Core.ILambdaLogger.Log(Amazon.Lambda.Core.LogLevel,System.Exception,System.String,System.Object[])">
+            <summary>
+            Log message categorized by the given log level
+            <para>
+            To configure the minimum log level set the AWS_LAMBDA_HANDLER_LOG_LEVEL environment variable. The value should be set
+            to one of the values in the LogLevel enumeration. The default minimum log level is "Information".
+            </para>
+            </summary>
+            <param name="level">Log level of the message.</param>
+            <param name="exception">Exception to include with the logging.</param>
+            <param name="message">Message to log.</param>
+            <param name="args">Values to be replaced in log messages that are parameterized.</param>
+        </member>
+        <member name="M:Amazon.Lambda.Core.ILambdaLogger.LogTrace(System.String,System.Object[])">
+            <summary>
+            Log trace message.
+            <para>
+            To configure the minimum log level set the AWS_LAMBDA_HANDLER_LOG_LEVEL environment variable. The value should be set
+            to one of the values in the LogLevel enumeration. The default minimum log level is "Information".
+            </para>
+            </summary>
+            <param name="message">Message to log.</param>
+            <param name="args">Values to be replaced in log messages that are parameterized.</param>
+        </member>
+        <member name="M:Amazon.Lambda.Core.ILambdaLogger.LogTrace(System.Exception,System.String,System.Object[])">
+            <summary>
+            Log trace message.
+            <para>
+            To configure the minimum log level set the AWS_LAMBDA_HANDLER_LOG_LEVEL environment variable. The value should be set
+            to one of the values in the LogLevel enumeration. The default minimum log level is "Information".
+            </para>
+            </summary>
+            <param name="exception">Exception to include with the logging.</param>
+            <param name="message">Message to log.</param>
+            <param name="args">Values to be replaced in log messages that are parameterized.</param>
+        </member>
+        <member name="M:Amazon.Lambda.Core.ILambdaLogger.LogDebug(System.String,System.Object[])">
+            <summary>
+            Log debug message.
+            <para>
+            To configure the minimum log level set the AWS_LAMBDA_HANDLER_LOG_LEVEL environment variable. The value should be set
+            to one of the values in the LogLevel enumeration. The default minimum log level is "Information".
+            </para>
+            </summary>
+            <param name="message">Message to log.</param>
+            <param name="args">Values to be replaced in log messages that are parameterized.</param>
+        </member>
+        <member name="M:Amazon.Lambda.Core.ILambdaLogger.LogDebug(System.Exception,System.String,System.Object[])">
+            <summary>
+            Log debug message.
+            <para>
+            To configure the minimum log level set the AWS_LAMBDA_HANDLER_LOG_LEVEL environment variable. The value should be set
+            to one of the values in the LogLevel enumeration. The default minimum log level is "Information".
+            </para>
+            </summary>
+            <param name="exception">Exception to include with the logging.</param>
+            <param name="message">Message to log.</param>
+            <param name="args">Values to be replaced in log messages that are parameterized.</param>
+        </member>
+        <member name="M:Amazon.Lambda.Core.ILambdaLogger.LogInformation(System.String,System.Object[])">
+            <summary>
+            Log information message.
+            <para>
+            To configure the minimum log level set the AWS_LAMBDA_HANDLER_LOG_LEVEL environment variable. The value should be set
+            to one of the values in the LogLevel enumeration. The default minimum log level is "Information".
+            </para>
+            </summary>
+            <param name="message">Message to log.</param>
+            <param name="args">Values to be replaced in log messages that are parameterized.</param>
+        </member>
+        <member name="M:Amazon.Lambda.Core.ILambdaLogger.LogInformation(System.Exception,System.String,System.Object[])">
+            <summary>
+            Log information message.
+            <para>
+            To configure the minimum log level set the AWS_LAMBDA_HANDLER_LOG_LEVEL environment variable. The value should be set
+            to one of the values in the LogLevel enumeration. The default minimum log level is "Information".
+            </para>
+            </summary>
+            <param name="exception">Exception to include with the logging.</param>
+            <param name="message">Message to log.</param>
+            <param name="args">Values to be replaced in log messages that are parameterized.</param>
+        </member>
+        <member name="M:Amazon.Lambda.Core.ILambdaLogger.LogWarning(System.String,System.Object[])">
+            <summary>
+            Log warning message.
+            <para>
+            To configure the minimum log level set the AWS_LAMBDA_HANDLER_LOG_LEVEL environment variable. The value should be set
+            to one of the values in the LogLevel enumeration. The default minimum log level is "Information".
+            </para>
+            </summary>
+            <param name="message">Message to log.</param>
+            <param name="args">Values to be replaced in log messages that are parameterized.</param>
+        </member>
+        <member name="M:Amazon.Lambda.Core.ILambdaLogger.LogWarning(System.Exception,System.String,System.Object[])">
+            <summary>
+            Log warning message.
+            <para>
+            To configure the minimum log level set the AWS_LAMBDA_HANDLER_LOG_LEVEL environment variable. The value should be set
+            to one of the values in the LogLevel enumeration. The default minimum log level is "Information".
+            </para>
+            </summary>
+            <param name="exception">Exception to include with the logging.</param>
+            <param name="message">Message to log.</param>
+            <param name="args">Values to be replaced in log messages that are parameterized.</param>
+        </member>
+        <member name="M:Amazon.Lambda.Core.ILambdaLogger.LogError(System.String,System.Object[])">
+            <summary>
+            Log error message.
+            <para>
+            To configure the minimum log level set the AWS_LAMBDA_HANDLER_LOG_LEVEL environment variable. The value should be set
+            to one of the values in the LogLevel enumeration. The default minimum log level is "Information".
+            </para>
+            </summary>
+            <param name="message">Message to log.</param>
+            <param name="args">Values to be replaced in log messages that are parameterized.</param>
+        </member>
+        <member name="M:Amazon.Lambda.Core.ILambdaLogger.LogError(System.Exception,System.String,System.Object[])">
+            <summary>
+            Log error message.
+            <para>
+            To configure the minimum log level set the AWS_LAMBDA_HANDLER_LOG_LEVEL environment variable. The value should be set
+            to one of the values in the LogLevel enumeration. The default minimum log level is "Information".
+            </para>
+            </summary>
+            <param name="exception">Exception to include with the logging.</param>
+            <param name="message">Message to log.</param>
+            <param name="args">Values to be replaced in log messages that are parameterized.</param>
+        </member>
+        <member name="M:Amazon.Lambda.Core.ILambdaLogger.LogCritical(System.String,System.Object[])">
+            <summary>
+            Log critical message.
+            <para>
+            To configure the minimum log level set the AWS_LAMBDA_HANDLER_LOG_LEVEL environment variable. The value should be set
+            to one of the values in the LogLevel enumeration. The default minimum log level is "Information".
+            </para>
+            </summary>
+            <param name="message">Message to log.</param>
+            <param name="args">Values to be replaced in log messages that are parameterized.</param>
+        </member>
+        <member name="M:Amazon.Lambda.Core.ILambdaLogger.LogCritical(System.Exception,System.String,System.Object[])">
+            <summary>
+            Log critical message.
+            <para>
+            To configure the minimum log level set the AWS_LAMBDA_HANDLER_LOG_LEVEL environment variable. The value should be set
+            to one of the values in the LogLevel enumeration. The default minimum log level is "Information".
+            </para>
+            </summary>
+            <param name="exception">Exception to include with the logging.</param>
+            <param name="message">Message to log.</param>
+            <param name="args">Values to be replaced in log messages that are parameterized.</param>
+        </member>
+        <member name="T:Amazon.Lambda.Core.ILambdaSerializer">
+            <summary>
+            Interface that must be implemented by custom serializers that
+            may need to be called during execution.
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.Core.ILambdaSerializer.Deserialize``1(System.IO.Stream)">
+            <summary>
+            This method is called to deserialize the request payload from Invoke API
+            into the object that is passed to the Lambda function handler.
+            </summary>
+            <typeparam name="T">Type of object to deserialize to.</typeparam>
+            <param name="requestStream">Stream to serialize.</param>
+            <returns>Deserialized object from stream.</returns>
+        </member>
+        <member name="M:Amazon.Lambda.Core.ILambdaSerializer.Serialize``1(``0,System.IO.Stream)">
+            <summary>
+            This method is called to serialize the result returned from 
+            a Lambda function handler into the response payload
+            that is returned by the Invoke API.
+            </summary>
+            <typeparam name="T">Type of object to serialize.</typeparam>
+            <param name="response">Object to serialize.</param>
+            <param name="responseStream">Output stream.</param>
+        </member>
+        <member name="T:Amazon.Lambda.Core.LambdaLogger">
+            <summary>
+            Static class which sends a message to AWS CloudWatch Logs.
+            When used outside of a Lambda environment, logs are written to
+            Console.Out.
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.Core.LambdaLogger.Log(System.String)">
+            <summary>
+            Logs a message to AWS CloudWatch Logs.
+            
+            Logging will not be done:
+             If the role provided to the function does not have sufficient permissions.
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="T:Amazon.Lambda.Core.LambdaSerializerAttribute">
+            <summary>
+            This attribute is required for serialization of input/output parameters of
+            a Lambda function if your Lambda function uses types other than string or
+            System.IO.Stream as input/output parameters.
+            
+            This attribute can be applied to a method (serializer used for method input
+            and output), or to an assembly (serializer used for all methods).
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.Core.LambdaSerializerAttribute.SerializerType">
+            <summary>
+            Type of the serializer.
+            The custom serializer must implement Amazon.Lambda.ILambdaSerializer
+            interface, or an exception will be thrown.
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.Core.LambdaSerializerAttribute.#ctor(System.Type)">
+            <summary>
+            Constructs attribute with a specific serializer type.
+            </summary>
+            <param name="serializerType"></param>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,1745 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Amazon.Lambda.RuntimeSupport</name>
+    </assembly>
+    <members>
+        <member name="T:Amazon.Lambda.RuntimeSupport.Bootstrap.InvokeDelegateBuilder">
+            <summary>
+            Builds user delegate from the handler information.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Amazon.Lambda.RuntimeSupport.Bootstrap.InvokeDelegateBuilder.ConstructInvokeDelegate(System.Object,System.Object,System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:Amazon.Lambda.RuntimeSupport.Bootstrap.InvokeDelegateBuilder.BuildInputExpressionOrNull(System.Object,System.Linq.Expressions.Expression,System.Type@)" -->
+        <member name="M:Amazon.Lambda.RuntimeSupport.Bootstrap.InvokeDelegateBuilder.BuildContextExpressionOrNull(System.Type,System.Linq.Expressions.Expression)">
+            <summary>
+            Generates an expression if iLambdaContextType is not null, or returns null
+            </summary>
+            <param name="iLambdaContextType">Type of context passed for the invocation.</param>
+            <param name="contextParameter">Expression that defines context parameter.</param>
+            <returns>Expression that defines context parameter if iLambdaContextType is not null, or returns null</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Bootstrap.InvokeDelegateBuilder.CreateHandlerCallExpression(System.Object,System.Linq.Expressions.Expression,System.Linq.Expressions.Expression)">
+            <summary>
+            Creates expression to invoke the customer method.
+            If input or context expressions are not null, those expressions are
+            passed into the method.
+            </summary>
+            <param name="customerObject">Wrapped customer object.</param>
+            <param name="inputExpression">Input expression that defines customer input.</param>
+            <param name="contextExpression">Context expression that defines context passed for the invocation.</param>
+            <returns>Expression that unwraps customer object.</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Amazon.Lambda.RuntimeSupport.Bootstrap.InvokeDelegateBuilder.CreateOutputExpression(System.Object,System.Linq.Expressions.Expression,System.Linq.Expressions.Expression)" -->
+        <member name="M:Amazon.Lambda.RuntimeSupport.Bootstrap.InvokeDelegateBuilder.GetTaskTSubclassOrNull(System.Type)">
+            <summary>
+            Retrieves the Task&lt;T&gt; type that the given type subclasses,
+            or null if the type does not subclass Task&lt;T&gt;
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Amazon.Lambda.RuntimeSupport.Bootstrap.InvokeDelegateBuilder.CreateSerializeExpression(System.Object,System.Type,System.Linq.Expressions.Expression,System.Linq.Expressions.Expression)" -->
+        <!-- Badly formed XML comment ignored for member "M:Amazon.Lambda.RuntimeSupport.Bootstrap.InvokeDelegateBuilder.CreateDeserializeExpression(System.Object,System.Type,System.Linq.Expressions.Expression)" -->
+        <member name="T:Amazon.Lambda.RuntimeSupport.Bootstrap.UserCodeInitializer">
+            <summary>
+            Finds and initializes user code.
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Bootstrap.UserCodeInitializer.#ctor(Amazon.Lambda.RuntimeSupport.Bootstrap.UserCodeLoader,Amazon.Lambda.RuntimeSupport.Helpers.InternalLogger)">
+            <summary>
+            Creates an instance of UserCodeInitializer
+            </summary>
+            <param name="userCodeLoader">UserCodeLoader used for initialize user code</param>
+            <param name="logger">Logger instance for logging initialization process logs</param>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Bootstrap.UserCodeInitializer.InitializeAsync">
+            <summary>
+            Finds and initializes user code.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.Bootstrap.UserCodeLoader">
+            <summary>
+            Loads user code and prepares to invoke it.
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Bootstrap.UserCodeLoader.#ctor(System.String,Amazon.Lambda.RuntimeSupport.Helpers.InternalLogger)">
+            <summary>
+            Initializes UserCodeLoader with a given handler and internal logger.
+            </summary>
+            <param name="handler"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Bootstrap.UserCodeLoader.Init(System.Action{System.String})">
+            <summary>
+            Loads customer assembly, type, and method.
+            After this call returns without errors, it is possible to invoke
+            the customer method through the Invoke method.
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Bootstrap.UserCodeLoader.Invoke(System.IO.Stream,Amazon.Lambda.Core.ILambdaContext,System.IO.Stream)">
+            <summary>
+            Calls into the customer method.
+            </summary>
+            <param name="lambdaData">Input stream.</param>
+            <param name="lambdaContext">Context for the invocation.</param>
+            <param name="outStream">Output stream.</param>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Bootstrap.UserCodeLoader.GetSerializerObject(System.Reflection.Assembly)">
+            <summary>
+            Constructs customer-specified serializer, specified either on the method,
+            the assembly, or not specified at all.
+            Returns null if serializer not specified.
+            </summary>
+            <param name="customerAssembly">Assembly that contains customer code.</param>
+            <returns>Instance of serializer object defined with LambdaSerializerAttribute</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Bootstrap.UserCodeLoader.FindCustomerMethod(System.Type)">
+            <summary>
+            Attempts to find MethodInfo in given type
+            Returns null if no matching method was found
+            </summary>
+            <param name="type">Type that contains customer method.</param>
+            <returns>Method information of customer method.</returns>
+            <exception cref="T:Amazon.Lambda.RuntimeSupport.ExceptionHandling.LambdaValidationException">Thrown when failed to find customer method in container type.</exception>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Bootstrap.UserCodeLoader.ConstructCustomSerializer(System.Attribute)">
+            <summary>
+            Constructs an instance of the customer-specified serializer
+            </summary>
+            <param name="serializerAttribute">Serializer attribute used to define the input/output serializer.</param>
+            <returns></returns>
+            <exception cref="T:Amazon.Lambda.RuntimeSupport.ExceptionHandling.LambdaValidationException">Thrown when serializer doesn't satisfy serializer type requirements.</exception>
+            <exception cref="!:LambdaUserCodeException">Thrown when failed to instantiate serializer type.</exception>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Bootstrap.UserCodeLoader.GetCustomerObject(System.Type)">
+            <summary>
+            Constructs an instance of the customer type, or returns null
+            if the customer method is static and does not require an object
+            </summary>
+            <param name="customerType">Type of the customer handler container.</param>
+            <returns>Instance of customer handler container type</returns>
+            <exception cref="!:LambdaUserCodeException">Thrown when failed to instantiate customer type.</exception>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Bootstrap.UserCodeValidator.ValidateCustomerType(System.Type,System.Reflection.MethodInfo)">
+            <summary>
+            Throws exception if type is not one we can work with
+            </summary>
+            <param name="type">Container type of customer method.</param>
+            <param name="method">Method information of customer method.</param>
+            <exception cref="T:Amazon.Lambda.RuntimeSupport.ExceptionHandling.LambdaValidationException">Throws when customer type is not lambda compatible.</exception>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Bootstrap.UserCodeValidator.ValidateCustomerMethod(System.Reflection.MethodInfo)">
+            <summary>
+            Validate customer method signature
+            Throws exception if method is not one we can work with
+            </summary>
+            <param name="method">MethodInfo of customer method</param>
+            <exception cref="T:Amazon.Lambda.RuntimeSupport.ExceptionHandling.LambdaValidationException">Thrown when customer method doesn't satisfy method requirements</exception>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Bootstrap.UserCodeValidator.ValidateILambdaSerializerType(System.Type)">
+            <summary>
+            Validates object serializer used for serialization and deserialization of input and output
+            Throws exception if the specified ILambdaSerializer is a type we can work with
+            </summary>
+            <param name="type">Type of the customer's serializer.</param>
+            <exception cref="T:Amazon.Lambda.RuntimeSupport.ExceptionHandling.LambdaValidationException">Thrown when customer serializer doesn't match with expected serializer definition</exception>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Bootstrap.UserCodeValidator.CheckILambdaSerializerType(System.Reflection.TypeInfo)">
+            <summary>
+            Checks that the ILambdaSerializer type is correct, returning null if type is as expected
+            or a non-null string with the reason if type is not correct.
+            </summary>
+            <param name="typeInfo">TypeInfo of the customer serializer.</param>
+            <returns>Error string if validation fails else null.</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Amazon.Lambda.RuntimeSupport.Bootstrap.UserCodeValidator.ValidateILambdaContextType(System.Type)" -->
+        <member name="T:Amazon.Lambda.RuntimeSupport.HandlerWrapper">
+            <summary>
+            This class provides methods that help you wrap existing C# Lambda implementations with LambdaBootstrapHandler delegates.
+            This makes serialization and deserialization simpler and allows you to use existing functions them with an instance of LambdaBootstrap.
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper(System.Action{System.IO.Stream,Amazon.Lambda.Core.ILambdaContext,System.IO.MemoryStream})">
+            <summary>
+            Get a HandlerWrapper that will call the given delegate on function invocation.
+            </summary>
+            <param name="invokeDelegate">Action called for each invocation of the Lambda function</param>
+            <returns>A HandlerWrapper</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper(System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Get a HandlerWrapper that will call the given method on function invocation.
+            Note that you may have to cast your handler to its specific type to help the compiler.
+            Example handler signature: Task Handler();
+            </summary>
+            <param name="handler">Func called for each invocation of the Lambda function.</param>
+            <returns>A HandlerWrapper</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper(System.Func{System.IO.Stream,System.Threading.Tasks.Task})">
+            <summary>
+            Get a HandlerWrapper that will call the given method on function invocation.
+            Note that you may have to cast your handler to its specific type to help the compiler.
+            Example handler signature: Task Handler(Stream)
+            </summary>
+            <param name="handler">Func called for each invocation of the Lambda function.</param>
+            <returns>A HandlerWrapper</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper``1(System.Func{``0,System.Threading.Tasks.Task},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Get a HandlerWrapper that will call the given method on function invocation.
+            Note that you may have to cast your handler to its specific type to help the compiler.
+            Example handler signature: Task Handler(PocoIn)
+            </summary>
+            <param name="handler">Func called for each invocation of the Lambda function.</param>
+            <param name="serializer">ILambdaSerializer to use when calling the handler</param>
+            <returns>A HandlerWrapper</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper(System.Func{Amazon.Lambda.Core.ILambdaContext,System.Threading.Tasks.Task})">
+            <summary>
+            Get a HandlerWrapper that will call the given method on function invocation.
+            Note that you may have to cast your handler to its specific type to help the compiler.
+            Example handler signature: Task Handler(ILambdaContext)
+            </summary>
+            <param name="handler">Func called for each invocation of the Lambda function.</param>
+            <returns>A HandlerWrapper</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper(System.Func{System.IO.Stream,Amazon.Lambda.Core.ILambdaContext,System.Threading.Tasks.Task})">
+            <summary>
+            Get a HandlerWrapper that will call the given method on function invocation.
+            Note that you may have to cast your handler to its specific type to help the compiler.
+            Example handler signature: Task Handler(Stream, ILambdaContext)
+            </summary>
+            <param name="handler">Func called for each invocation of the Lambda function.</param>
+            <returns>A HandlerWrapper</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper``1(System.Func{``0,Amazon.Lambda.Core.ILambdaContext,System.Threading.Tasks.Task},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Get a HandlerWrapper that will call the given method on function invocation.
+            Note that you may have to cast your handler to its specific type to help the compiler.
+            Example handler signature: Task Handler(PocoIn, ILambdaContext)
+            </summary>
+            <param name="handler">Func called for each invocation of the Lambda function.</param>
+            <param name="serializer">ILambdaSerializer to use when calling the handler</param>
+            <returns>A HandlerWrapper</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper(System.Func{System.Threading.Tasks.Task{System.IO.Stream}})" -->
+        <!-- Badly formed XML comment ignored for member "M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper(System.Func{System.IO.Stream,System.Threading.Tasks.Task{System.IO.Stream}})" -->
+        <!-- Badly formed XML comment ignored for member "M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper``1(System.Func{``0,System.Threading.Tasks.Task{System.IO.Stream}},Amazon.Lambda.Core.ILambdaSerializer)" -->
+        <!-- Badly formed XML comment ignored for member "M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper(System.Func{Amazon.Lambda.Core.ILambdaContext,System.Threading.Tasks.Task{System.IO.Stream}})" -->
+        <!-- Badly formed XML comment ignored for member "M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper(System.Func{System.IO.Stream,Amazon.Lambda.Core.ILambdaContext,System.Threading.Tasks.Task{System.IO.Stream}})" -->
+        <!-- Badly formed XML comment ignored for member "M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper``1(System.Func{``0,Amazon.Lambda.Core.ILambdaContext,System.Threading.Tasks.Task{System.IO.Stream}},Amazon.Lambda.Core.ILambdaSerializer)" -->
+        <!-- Badly formed XML comment ignored for member "M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper``1(System.Func{System.Threading.Tasks.Task{``0}},Amazon.Lambda.Core.ILambdaSerializer)" -->
+        <!-- Badly formed XML comment ignored for member "M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper``1(System.Func{System.IO.Stream,System.Threading.Tasks.Task{``0}},Amazon.Lambda.Core.ILambdaSerializer)" -->
+        <!-- Badly formed XML comment ignored for member "M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper``2(System.Func{``0,System.Threading.Tasks.Task{``1}},Amazon.Lambda.Core.ILambdaSerializer)" -->
+        <!-- Badly formed XML comment ignored for member "M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper``1(System.Func{Amazon.Lambda.Core.ILambdaContext,System.Threading.Tasks.Task{``0}},Amazon.Lambda.Core.ILambdaSerializer)" -->
+        <!-- Badly formed XML comment ignored for member "M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper``1(System.Func{System.IO.Stream,Amazon.Lambda.Core.ILambdaContext,System.Threading.Tasks.Task{``0}},Amazon.Lambda.Core.ILambdaSerializer)" -->
+        <!-- Badly formed XML comment ignored for member "M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper``2(System.Func{``0,Amazon.Lambda.Core.ILambdaContext,System.Threading.Tasks.Task{``1}},Amazon.Lambda.Core.ILambdaSerializer)" -->
+        <member name="M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper(System.Action)">
+            <summary>
+            Get a HandlerWrapper that will call the given method on function invocation.
+            Note that you may have to cast your handler to its specific type to help the compiler.
+            Example handler signature: void Handler()
+            </summary>
+            <param name="handler">Action called for each invocation of the Lambda function.</param>
+            <returns>A HandlerWrapper</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper(System.Action{System.IO.Stream})">
+            <summary>
+            Get a HandlerWrapper that will call the given method on function invocation.
+            Note that you may have to cast your handler to its specific type to help the compiler.
+            Example handler signature: void Handler(Stream)
+            </summary>
+            <param name="handler">Action called for each invocation of the Lambda function.</param>
+            <returns>A HandlerWrapper</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper``1(System.Action{``0},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Get a HandlerWrapper that will call the given method on function invocation.
+            Note that you may have to cast your handler to its specific type to help the compiler.
+            Example handler signature: void Handler(PocoIn)
+            </summary>
+            <param name="handler">Action called for each invocation of the Lambda function.</param>
+            <param name="serializer">ILambdaSerializer to use when calling the handler</param>
+            <returns>A HandlerWrapper</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper(System.Action{Amazon.Lambda.Core.ILambdaContext})">
+            <summary>
+            Get a HandlerWrapper that will call the given method on function invocation.
+            Note that you may have to cast your handler to its specific type to help the compiler.
+            Example handler signature: void Handler(ILambdaContext)
+            </summary>
+            <param name="handler">Action called for each invocation of the Lambda function.</param>
+            <returns>A HandlerWrapper</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper(System.Action{System.IO.Stream,Amazon.Lambda.Core.ILambdaContext})">
+            <summary>
+            Get a HandlerWrapper that will call the given method on function invocation.
+            Note that you may have to cast your handler to its specific type to help the compiler.
+            Example handler signature: void Handler(Stream, ILambdaContext)
+            </summary>
+            <param name="handler">Action called for each invocation of the Lambda function.</param>
+            <returns>A HandlerWrapper</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper``1(System.Action{``0,Amazon.Lambda.Core.ILambdaContext},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Get a HandlerWrapper that will call the given method on function invocation.
+            Note that you may have to cast your handler to its specific type to help the compiler.
+            Example handler signature: void Handler(PocoIn, ILambdaContext)
+            </summary>
+            <param name="handler">Action called for each invocation of the Lambda function.</param>
+            <param name="serializer">ILambdaSerializer to use when calling the handler</param>
+            <returns>A HandlerWrapper</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper(System.Func{System.IO.Stream})">
+            <summary>
+            Get a HandlerWrapper that will call the given method on function invocation.
+            Note that you may have to cast your handler to its specific type to help the compiler.
+            Example handler signature: Stream Handler()
+            </summary>
+            <param name="handler">Func called for each invocation of the Lambda function.</param>
+            <returns>A HandlerWrapper</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper(System.Func{System.IO.Stream,System.IO.Stream})">
+            <summary>
+            Get a HandlerWrapper that will call the given method on function invocation.
+            Note that you may have to cast your handler to its specific type to help the compiler.
+            Example handler signature: Stream Handler(Stream)
+            </summary>
+            <param name="handler">Func called for each invocation of the Lambda function.</param>
+            <returns>A HandlerWrapper</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper``1(System.Func{``0,System.IO.Stream},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Get a HandlerWrapper that will call the given method on function invocation.
+            Note that you may have to cast your handler to its specific type to help the compiler.
+            Example handler signature: Stream Handler(PocoIn)
+            </summary>
+            <param name="handler">Func called for each invocation of the Lambda function.</param>
+            <param name="serializer">ILambdaSerializer to use when calling the handler</param>
+            <returns>A HandlerWrapper</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper(System.Func{Amazon.Lambda.Core.ILambdaContext,System.IO.Stream})">
+            <summary>
+            Get a HandlerWrapper that will call the given method on function invocation.
+            Note that you may have to cast your handler to its specific type to help the compiler.
+            Example handler signature: Stream Handler(ILambdaContext)
+            </summary>
+            <param name="handler">Func called for each invocation of the Lambda function.</param>
+            <returns>A HandlerWrapper</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper(System.Func{System.IO.Stream,Amazon.Lambda.Core.ILambdaContext,System.IO.Stream})">
+            <summary>
+            Get a HandlerWrapper that will call the given method on function invocation.
+            Note that you may have to cast your handler to its specific type to help the compiler.
+            Example handler signature: Stream Handler(PocoIn, ILambdaContext)
+            </summary>
+            <param name="handler">Func called for each invocation of the Lambda function.</param>
+            <returns>A HandlerWrapper</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper``1(System.Func{``0,Amazon.Lambda.Core.ILambdaContext,System.IO.Stream},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Get a HandlerWrapper that will call the given method on function invocation.
+            Note that you may have to cast your handler to its specific type to help the compiler.
+            Example handler signature: Stream Handler(PocoIn, ILambdaContext)
+            </summary>
+            <param name="handler">Func called for each invocation of the Lambda function.</param>
+            <param name="serializer">ILambdaSerializer to use when calling the handler</param>
+            <returns>A HandlerWrapper</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper``1(System.Func{``0},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Get a HandlerWrapper that will call the given method on function invocation.
+            Note that you may have to cast your handler to its specific type to help the compiler.
+            Example handler signature: PocoOut Handler()
+            </summary>
+            <param name="handler">Func called for each invocation of the Lambda function.</param>
+            <param name="serializer">ILambdaSerializer to use when calling the handler</param>
+            <returns>A HandlerWrapper</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper``1(System.Func{System.IO.Stream,``0},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Get a HandlerWrapper that will call the given method on function invocation.
+            Note that you may have to cast your handler to its specific type to help the compiler.
+            Example handler signature: PocoOut Handler(Stream)
+            </summary>
+            <param name="handler">Func called for each invocation of the Lambda function.</param>
+            <param name="serializer">ILambdaSerializer to use when calling the handler</param>
+            <returns>A HandlerWrapper</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper``2(System.Func{``0,``1},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Get a HandlerWrapper that will call the given method on function invocation.
+            Note that you may have to cast your handler to its specific type to help the compiler.
+            Example handler signature: PocoOut Handler(PocoIn)
+            </summary>
+            <param name="handler">Func called for each invocation of the Lambda function.</param>
+            <param name="serializer">ILambdaSerializer to use when calling the handler</param>
+            <returns>A HandlerWrapper</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper``1(System.Func{Amazon.Lambda.Core.ILambdaContext,``0},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Get a HandlerWrapper that will call the given method on function invocation.
+            Note that you may have to cast your handler to its specific type to help the compiler.
+            Example handler signature: PocoOut Handler(ILambdaContext)
+            </summary>
+            <param name="handler">Func called for each invocation of the Lambda function.</param>
+            <param name="serializer">ILambdaSerializer to use when calling the handler</param>
+            <returns>A HandlerWrapper</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper``1(System.Func{System.IO.Stream,Amazon.Lambda.Core.ILambdaContext,``0},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Get a HandlerWrapper that will call the given method on function invocation.
+            Note that you may have to cast your handler to its specific type to help the compiler.
+            Example handler signature: PocoOut Handler(Stream, ILambdaContext)
+            </summary>
+            <param name="handler">Func called for each invocation of the Lambda function.</param>
+            <param name="serializer">ILambdaSerializer to use when calling the handler</param>
+            <returns>A HandlerWrapper</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.HandlerWrapper.GetHandlerWrapper``2(System.Func{``0,Amazon.Lambda.Core.ILambdaContext,``1},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Get a HandlerWrapper that will call the given method on function invocation.
+            Note that you may have to cast your handler to its specific type to help the compiler.
+            Example handler signature: PocoOut Handler(PocoIn, ILambdaContext)
+            </summary>
+            <param name="handler">Func called for each invocation of the Lambda function.</param>
+            <param name="serializer">ILambdaSerializer to use when calling the handler</param>
+            <returns>A HandlerWrapper</returns>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.LambdaBootstrap">
+            <summary>
+            Class to communicate with the Lambda Runtime API, handle initialization,
+            and run the invoke loop for an AWS Lambda function
+            </summary>
+        </member>
+        <member name="F:Amazon.Lambda.RuntimeSupport.LambdaBootstrap.RuntimeApiHttpTimeout">
+            <summary>
+            The Lambda container freezes the process at a point where an HTTP request is in progress.
+            We need to make sure we don't timeout waiting for the next invocation.
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrap.#ctor(System.Net.Http.HttpClient,Amazon.Lambda.RuntimeSupport.LambdaBootstrapHandler,Amazon.Lambda.RuntimeSupport.LambdaBootstrapInitializer)">
+            <summary>
+            Create a LambdaBootstrap that will call the given initializer and handler.
+            </summary>
+            <param name="httpClient">The HTTP client to use with the Lambda runtime.</param>
+            <param name="handler">Delegate called for each invocation of the Lambda function.</param>
+            <param name="initializer">Delegate called to initialize the Lambda function.  If not provided the initialization step is skipped.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrap.#ctor(Amazon.Lambda.RuntimeSupport.LambdaBootstrapHandler,Amazon.Lambda.RuntimeSupport.LambdaBootstrapInitializer)">
+            <summary>
+            Create a LambdaBootstrap that will call the given initializer and handler.
+            </summary>
+            <param name="handler">Delegate called for each invocation of the Lambda function.</param>
+            <param name="initializer">Delegate called to initialize the Lambda function.  If not provided the initialization step is skipped.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrap.#ctor(Amazon.Lambda.RuntimeSupport.HandlerWrapper,Amazon.Lambda.RuntimeSupport.LambdaBootstrapInitializer)">
+            <summary>
+            Create a LambdaBootstrap that will call the given initializer and handler.
+            </summary>
+            <param name="handlerWrapper">The HandlerWrapper to call for each invocation of the Lambda function.</param>
+            <param name="initializer">Delegate called to initialize the Lambda function.  If not provided the initialization step is skipped.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrap.#ctor(System.Net.Http.HttpClient,Amazon.Lambda.RuntimeSupport.HandlerWrapper,Amazon.Lambda.RuntimeSupport.LambdaBootstrapInitializer)">
+            <summary>
+            Create a LambdaBootstrap that will call the given initializer and handler.
+            </summary>
+            <param name="httpClient">The HTTP client to use with the Lambda runtime.</param>
+            <param name="handlerWrapper">The HandlerWrapper to call for each invocation of the Lambda function.</param>
+            <param name="initializer">Delegate called to initialize the Lambda function.  If not provided the initialization step is skipped.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrap.#ctor(System.Net.Http.HttpClient,Amazon.Lambda.RuntimeSupport.LambdaBootstrapHandler,Amazon.Lambda.RuntimeSupport.LambdaBootstrapInitializer,System.Boolean)">
+            <summary>
+            Create a LambdaBootstrap that will call the given initializer and handler.
+            </summary>
+            <param name="httpClient">The HTTP client to use with the Lambda runtime.</param>
+            <param name="handler">Delegate called for each invocation of the Lambda function.</param>
+            <param name="initializer">Delegate called to initialize the Lambda function.  If not provided the initialization step is skipped.</param>
+            <param name="ownsHttpClient">Whether the instance owns the HTTP client and should dispose of it.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrap.RunAsync(System.Threading.CancellationToken)">
+            <summary>
+            Run the initialization Func if provided.
+            Then run the invoke loop, calling the handler for each invocation.
+            </summary>
+            <param name="cancellationToken"></param>
+            <returns>A Task that represents the operation.</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrap.ConstructHttpClient">
+            <summary>
+            Utility method for creating an HttpClient used by LambdaBootstrap to interact with the Lambda Runtime API.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrap.AdjustMemorySettings">
+            <summary>
+            The .NET runtime does not recognize the memory limits placed by Lambda via Lambda's cgroups. This method is run during startup to inform the
+            .NET runtime the max memory configured for Lambda function. The max memory can be determined using the AWS_LAMBDA_FUNCTION_MEMORY_SIZE environment variable
+            which has the memory in MB.
+            
+            For additional context on setting the heap size refer to this GitHub issue:
+            https://github.com/dotnet/runtime/issues/70601
+            </summary>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder">
+            <summary>
+            Class to communicate with the Lambda Runtime API, handle initialization,
+            and run the invoke loop for an AWS Lambda function
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create(System.Action{System.IO.Stream,Amazon.Lambda.Core.ILambdaContext,System.IO.MemoryStream})">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create(System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create(System.Func{System.IO.Stream,System.Threading.Tasks.Task})">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create``1(System.Func{``0,System.Threading.Tasks.Task},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <param name="serializer">The Lambda serializer that will be used to convert between Lambda's JSON documents and .NET objects.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create(System.Func{Amazon.Lambda.Core.ILambdaContext,System.Threading.Tasks.Task})">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create(System.Func{System.IO.Stream,Amazon.Lambda.Core.ILambdaContext,System.Threading.Tasks.Task})">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create``1(System.Func{``0,Amazon.Lambda.Core.ILambdaContext,System.Threading.Tasks.Task},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <param name="serializer">The Lambda serializer that will be used to convert between Lambda's JSON documents and .NET objects.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create(System.Func{System.Threading.Tasks.Task{System.IO.Stream}})">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create(System.Func{System.IO.Stream,System.Threading.Tasks.Task{System.IO.Stream}})">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create``1(System.Func{``0,System.Threading.Tasks.Task{System.IO.Stream}},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <param name="serializer">The Lambda serializer that will be used to convert between Lambda's JSON documents and .NET objects.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create(System.Func{Amazon.Lambda.Core.ILambdaContext,System.Threading.Tasks.Task{System.IO.Stream}})">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create(System.Func{System.IO.Stream,Amazon.Lambda.Core.ILambdaContext,System.Threading.Tasks.Task{System.IO.Stream}})">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create``1(System.Func{``0,Amazon.Lambda.Core.ILambdaContext,System.Threading.Tasks.Task{System.IO.Stream}},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <param name="serializer">The Lambda serializer that will be used to convert between Lambda's JSON documents and .NET objects.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create``1(System.Func{System.Threading.Tasks.Task{``0}},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <param name="serializer">The Lambda serializer that will be used to convert between Lambda's JSON documents and .NET objects.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create``1(System.Func{System.IO.Stream,System.Threading.Tasks.Task{``0}},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <param name="serializer">The Lambda serializer that will be used to convert between Lambda's JSON documents and .NET objects.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create``2(System.Func{``0,System.Threading.Tasks.Task{``1}},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <param name="serializer">The Lambda serializer that will be used to convert between Lambda's JSON documents and .NET objects.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create``1(System.Func{Amazon.Lambda.Core.ILambdaContext,System.Threading.Tasks.Task{``0}},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <param name="serializer">The Lambda serializer that will be used to convert between Lambda's JSON documents and .NET objects.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create``1(System.Func{System.IO.Stream,Amazon.Lambda.Core.ILambdaContext,System.Threading.Tasks.Task{``0}},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <param name="serializer">The Lambda serializer that will be used to convert between Lambda's JSON documents and .NET objects.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create``2(System.Func{``0,Amazon.Lambda.Core.ILambdaContext,System.Threading.Tasks.Task{``1}},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <param name="serializer">The Lambda serializer that will be used to convert between Lambda's JSON documents and .NET objects.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create(System.Action)">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create(System.Action{System.IO.Stream})">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create``1(System.Action{``0},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <param name="serializer">The Lambda serializer that will be used to convert between Lambda's JSON documents and .NET objects.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create(System.Action{Amazon.Lambda.Core.ILambdaContext})">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create(System.Action{System.IO.Stream,Amazon.Lambda.Core.ILambdaContext})">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create``1(System.Action{``0,Amazon.Lambda.Core.ILambdaContext},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <param name="serializer">The Lambda serializer that will be used to convert between Lambda's JSON documents and .NET objects.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create(System.Func{System.IO.Stream})">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create(System.Func{System.IO.Stream,System.IO.Stream})">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create``1(System.Func{``0,System.IO.Stream},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <param name="serializer">The Lambda serializer that will be used to convert between Lambda's JSON documents and .NET objects.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create(System.Func{Amazon.Lambda.Core.ILambdaContext,System.IO.Stream})">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create(System.Func{System.IO.Stream,Amazon.Lambda.Core.ILambdaContext,System.IO.Stream})">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create``1(System.Func{``0,Amazon.Lambda.Core.ILambdaContext,System.IO.Stream},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <param name="serializer">The Lambda serializer that will be used to convert between Lambda's JSON documents and .NET objects.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create``1(System.Func{``0},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <param name="serializer">The Lambda serializer that will be used to convert between Lambda's JSON documents and .NET objects.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create``1(System.Func{System.IO.Stream,``0},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <param name="serializer">The Lambda serializer that will be used to convert between Lambda's JSON documents and .NET objects.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create``2(System.Func{``0,``1},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <param name="serializer">The Lambda serializer that will be used to convert between Lambda's JSON documents and .NET objects.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create``1(System.Func{Amazon.Lambda.Core.ILambdaContext,``0},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <param name="serializer">The Lambda serializer that will be used to convert between Lambda's JSON documents and .NET objects.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create``1(System.Func{System.IO.Stream,Amazon.Lambda.Core.ILambdaContext,``0},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <param name="serializer">The Lambda serializer that will be used to convert between Lambda's JSON documents and .NET objects.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.Create``2(System.Func{``0,Amazon.Lambda.Core.ILambdaContext,``1},Amazon.Lambda.Core.ILambdaSerializer)">
+            <summary>
+            Create a builder for creating the LambdaBootstrap.
+            </summary>
+            <param name="handler">The handler that will be called for each Lambda invocation</param>
+            <param name="serializer">The Lambda serializer that will be used to convert between Lambda's JSON documents and .NET objects.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.UseHttpClient(System.Net.Http.HttpClient)">
+            <summary>
+            Configure the bootstrap to use a provided HttpClient
+            </summary>
+            <param name="httpClient"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaBootstrapBuilder.UseBootstrapHandler(Amazon.Lambda.RuntimeSupport.LambdaBootstrapInitializer)">
+            <summary>
+            Configure a custom bootstrap initalizer delegate
+            </summary>
+            <param name="lambdaBootstrapInitializer"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.IInternalRuntimeApiClient.ErrorAsync(System.String,System.String)">
+            <summary>Non-recoverable initialization error. Runtime should exit after reporting the error. Error will be served in response to the first invoke.</summary>
+            <returns>Accepted</returns>
+            <exception cref="T:Amazon.Lambda.RuntimeSupport.RuntimeApiClientException">A server side error occurred.</exception>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.IInternalRuntimeApiClient.ErrorAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>Non-recoverable initialization error. Runtime should exit after reporting the error. Error will be served in response to the first invoke.</summary>
+            <returns>Accepted</returns>
+            <exception cref="T:Amazon.Lambda.RuntimeSupport.RuntimeApiClientException">A server side error occurred.</exception>
+            <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.IInternalRuntimeApiClient.NextAsync">
+            <summary>Runtime makes this HTTP request when it is ready to receive and process a new invoke.</summary>
+            <returns>This is an iterator-style blocking API call. Response contains event JSON document, specific to the invoking service.</returns>
+            <exception cref="T:Amazon.Lambda.RuntimeSupport.RuntimeApiClientException">A server side error occurred.</exception>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.IInternalRuntimeApiClient.NextAsync(System.Threading.CancellationToken)">
+            <summary>Runtime makes this HTTP request when it is ready to receive and process a new invoke.</summary>
+            <returns>This is an iterator-style blocking API call. Response contains event JSON document, specific to the invoking service.</returns>
+            <exception cref="T:Amazon.Lambda.RuntimeSupport.RuntimeApiClientException">A server side error occurred.</exception>
+            <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.IInternalRuntimeApiClient.ResponseAsync(System.String,System.IO.Stream)">
+            <summary>Runtime makes this request in order to submit a response.</summary>
+            <returns>Accepted</returns>
+            <exception cref="T:Amazon.Lambda.RuntimeSupport.RuntimeApiClientException">A server side error occurred.</exception>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.IInternalRuntimeApiClient.ResponseAsync(System.String,System.IO.Stream,System.Threading.CancellationToken)">
+            <summary>Runtime makes this request in order to submit a response.</summary>
+            <returns>Accepted</returns>
+            <exception cref="T:Amazon.Lambda.RuntimeSupport.RuntimeApiClientException">A server side error occurred.</exception>
+            <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.IInternalRuntimeApiClient.ErrorWithXRayCauseAsync(System.String,System.String,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Runtime makes this request in order to submit an error response. It can be either a function error, or a runtime error. Error will be served in response to the invoke.
+            </summary>
+            <param name="awsRequestId"></param>
+            <param name="lambda_Runtime_Function_Error_Type"></param>
+            <param name="errorJson"></param>
+            <param name="xrayCause"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Amazon.Lambda.RuntimeSupport.InternalRuntimeApiClient.RuntimeApiSerializationContext.ErrorResponse">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.RuntimeSupport.InternalRuntimeApiClient.RuntimeApiSerializationContext.StatusResponse">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.RuntimeSupport.InternalRuntimeApiClient.RuntimeApiSerializationContext.String">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.RuntimeSupport.InternalRuntimeApiClient.RuntimeApiSerializationContext.Default">
+            <summary>
+            The default <see cref="T:System.Text.Json.Serialization.JsonSerializerContext"/> associated with a default <see cref="T:System.Text.Json.JsonSerializerOptions"/> instance.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.RuntimeSupport.InternalRuntimeApiClient.RuntimeApiSerializationContext.GeneratedSerializerOptions">
+            <summary>
+            The source-generated options associated with this context.
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.InternalRuntimeApiClient.RuntimeApiSerializationContext.#ctor">
+            <inheritdoc/>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.InternalRuntimeApiClient.RuntimeApiSerializationContext.#ctor(System.Text.Json.JsonSerializerOptions)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.InternalRuntimeApiClient.RuntimeApiSerializationContext.GetTypeInfo(System.Type)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.InternalRuntimeApiClient.ErrorAsync(System.String,System.String)">
+            <summary>Non-recoverable initialization error. Runtime should exit after reporting the error. Error will be served in response to the first invoke.</summary>
+            <returns>Accepted</returns>
+            <exception cref="T:Amazon.Lambda.RuntimeSupport.RuntimeApiClientException">A server side error occurred.</exception>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.InternalRuntimeApiClient.ErrorAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>Non-recoverable initialization error. Runtime should exit after reporting the error. Error will be served in response to the first invoke.</summary>
+            <returns>Accepted</returns>
+            <exception cref="T:Amazon.Lambda.RuntimeSupport.RuntimeApiClientException">A server side error occurred.</exception>
+            <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.InternalRuntimeApiClient.NextAsync">
+            <summary>Runtime makes this HTTP request when it is ready to receive and process a new invoke.</summary>
+            <returns>This is an iterator-style blocking API call. Response contains event JSON document, specific to the invoking service.</returns>
+            <exception cref="T:Amazon.Lambda.RuntimeSupport.RuntimeApiClientException">A server side error occurred.</exception>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.InternalRuntimeApiClient.NextAsync(System.Threading.CancellationToken)">
+            <summary>Runtime makes this HTTP request when it is ready to receive and process a new invoke.</summary>
+            <returns>This is an iterator-style blocking API call. Response contains event JSON document, specific to the invoking service.</returns>
+            <exception cref="T:Amazon.Lambda.RuntimeSupport.RuntimeApiClientException">A server side error occurred.</exception>
+            <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.InternalRuntimeApiClient.ResponseAsync(System.String,System.IO.Stream)">
+            <summary>Runtime makes this request in order to submit a response.</summary>
+            <returns>Accepted</returns>
+            <exception cref="T:Amazon.Lambda.RuntimeSupport.RuntimeApiClientException">A server side error occurred.</exception>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.InternalRuntimeApiClient.ResponseAsync(System.String,System.IO.Stream,System.Threading.CancellationToken)">
+            <summary>Runtime makes this request in order to submit a response.</summary>
+            <returns>Accepted</returns>
+            <exception cref="T:Amazon.Lambda.RuntimeSupport.RuntimeApiClientException">A server side error occurred.</exception>
+            <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.InternalRuntimeApiClient.ErrorWithXRayCauseAsync(System.String,System.String,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            This is a copy of the generated Error2Async method but adds support for the unmodeled header `Lambda-Runtime-Function-XRay-Error-Cause`.
+            </summary>
+            <param name="awsRequestId"></param>
+            <param name="lambda_Runtime_Function_Error_Type"></param>
+            <param name="errorJson"></param>
+            <param name="xrayCause"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.InvocationRequest">
+            <summary>
+            Class that contains all the information necessary to handle an invocation of an AWS Lambda function.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.RuntimeSupport.InvocationRequest.InputStream">
+            <summary>
+            Input to the function invocation.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.RuntimeSupport.InvocationRequest.LambdaContext">
+            <summary>
+            Context for the invocation.
+            </summary>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.InvocationResponse">
+            <summary>
+            Class that contains the response for an invocation of an AWS Lambda function.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.RuntimeSupport.InvocationResponse.OutputStream">
+            <summary>
+            Output from the function invocation.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.RuntimeSupport.InvocationResponse.DisposeOutputStream">
+            <summary>
+            True if the LambdaBootstrap should dispose the stream after it's read, false otherwise.
+            Set this to false if you plan to reuse the same output stream for multiple invocations of the function.
+            </summary>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.IRuntimeApiClient">
+            <summary>
+            Client to call the AWS Lambda Runtime API.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.RuntimeSupport.IRuntimeApiClient.ConsoleLogger">
+            <summary>
+            Logger used for formatting log messages into the user's CloudWatch Log stream.
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.IRuntimeApiClient.ReportInitializationErrorAsync(System.Exception,System.Threading.CancellationToken)">
+            <summary>
+            Report an initialization error as an asynchronous operation.
+            </summary>
+            <param name="exception">The exception to report.</param>
+            <param name="cancellationToken">The optional cancellation token to use.</param>
+            <returns>A Task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.IRuntimeApiClient.ReportInitializationErrorAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Send an initialization error with a type string but no other information as an asynchronous operation.
+            This can be used to directly control flow in Step Functions without creating an Exception class and throwing it.
+            </summary>
+            <param name="errorType">The type of the error to report to Lambda.  This does not need to be a .NET type name.</param>
+            <param name="cancellationToken">The optional cancellation token to use.</param>
+            <returns>A Task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.IRuntimeApiClient.GetNextInvocationAsync(System.Threading.CancellationToken)">
+            <summary>
+            Get the next function invocation from the Runtime API as an asynchronous operation.
+            Completes when the next invocation is received.
+            </summary>
+            <param name="cancellationToken">The optional cancellation token to use to stop listening for the next invocation.</param>
+            <returns>A Task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.IRuntimeApiClient.ReportInvocationErrorAsync(System.String,System.Exception,System.Threading.CancellationToken)">
+            <summary>
+            Report an invocation error as an asynchronous operation.
+            </summary>
+            <param name="awsRequestId">The ID of the function request that caused the error.</param>
+            <param name="exception">The exception to report.</param>
+            <param name="cancellationToken">The optional cancellation token to use.</param>
+            <returns>A Task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.IRuntimeApiClient.SendResponseAsync(System.String,System.IO.Stream,System.Threading.CancellationToken)">
+            <summary>
+            Send a response to a function invocation to the Runtime API as an asynchronous operation.
+            </summary>
+            <param name="awsRequestId">The ID of the function request being responded to.</param>
+            <param name="outputStream">The content of the response to the function invocation.</param>
+            <param name="cancellationToken">The optional cancellation token to use.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.NonDisposingStreamWrapper">
+            <summary>
+            This class is used to wrap the function response stream.
+            It allows the wrapped stream to be reused.
+            </summary>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.RuntimeApiClient">
+            <summary>
+            Client to call the AWS Lambda Runtime API.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.RuntimeSupport.RuntimeApiClient.ConsoleLogger">
+            <inheritdoc/>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.RuntimeApiClient.#ctor(System.Net.Http.HttpClient)">
+            <summary>
+            Create a new RuntimeApiClient
+            </summary>
+            <param name="httpClient">The HttpClient to use to communicate with the Runtime API.</param>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.RuntimeApiClient.ReportInitializationErrorAsync(System.Exception,System.Threading.CancellationToken)">
+            <summary>
+            Report an initialization error as an asynchronous operation.
+            </summary>
+            <param name="exception">The exception to report.</param>
+            <param name="cancellationToken">The optional cancellation token to use.</param>
+            <returns>A Task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.RuntimeApiClient.ReportInitializationErrorAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Send an initialization error with a type string but no other information as an asynchronous operation.
+            This can be used to directly control flow in Step Functions without creating an Exception class and throwing it.
+            </summary>
+            <param name="errorType">The type of the error to report to Lambda.  This does not need to be a .NET type name.</param>
+            <param name="cancellationToken">The optional cancellation token to use.</param>
+            <returns>A Task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.RuntimeApiClient.GetNextInvocationAsync(System.Threading.CancellationToken)">
+            <summary>
+            Get the next function invocation from the Runtime API as an asynchronous operation.
+            Completes when the next invocation is received.
+            </summary>
+            <param name="cancellationToken">The optional cancellation token to use to stop listening for the next invocation.</param>
+            <returns>A Task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.RuntimeApiClient.ReportInvocationErrorAsync(System.String,System.Exception,System.Threading.CancellationToken)">
+            <summary>
+            Report an invocation error as an asynchronous operation.
+            </summary>
+            <param name="awsRequestId">The ID of the function request that caused the error.</param>
+            <param name="exception">The exception to report.</param>
+            <param name="cancellationToken">The optional cancellation token to use.</param>
+            <returns>A Task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.RuntimeApiClient.SendResponseAsync(System.String,System.IO.Stream,System.Threading.CancellationToken)">
+            <summary>
+            Send a response to a function invocation to the Runtime API as an asynchronous operation.
+            </summary>
+            <param name="awsRequestId">The ID of the function request being responded to.</param>
+            <param name="outputStream">The content of the response to the function invocation.</param>
+            <param name="cancellationToken">The optional cancellation token to use.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.IEnvironmentVariables">
+            <summary>
+            Interface to access environment variables.
+            Allows for unit testing without changing the real System environment variables.
+            </summary>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.LambdaEnvironment">
+            <summary>
+            Provides access to Environment Variables set by the Lambda runtime environment.
+            </summary>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.SystemEnvironmentVariables">
+            <summary>
+            Implementation of IEnvironmentVariables that accesses the real System.Environment
+            </summary>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.ExceptionHandling.Errors">
+            <summary>
+            A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.ExceptionHandling.LambdaExceptions">
+            <summary>
+            Static methods for formatting and creating Lambda exceptions.
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.ExceptionHandling.LambdaExceptions.ValidationException(System.String,System.Object[])">
+            <summary>
+            Creates LambdaValidationException with specified messageFormat,
+            and arguments.
+            If an exception is encountered when formatting the string, messageFormat
+            is used as the message.
+            </summary>
+            <param name="messageFormat"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.ExceptionHandling.LambdaExceptions.ValidationException(System.Exception,System.String,System.Object[])">
+            <summary>
+            Creates LambdaValidationException with specified inner exception,
+            messageFormat, and arguments.
+            If an exception is encountered when formatting the string, messageFormat
+            is used as the message.
+            </summary>
+            <param name="innerException"></param>
+            <param name="messageFormat"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.ExceptionHandling.LambdaExceptions.FormatMessage(System.String,System.Object[])">
+            <summary>
+            Attempts to create a string from the specified format and arguments.
+            If string.Format fails, messageFormat is returned as the message.
+            </summary>
+            <param name="messageFormat"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.ExceptionHandling.LambdaValidationException">
+            <summary>
+             An exception indicating that one of the inputs provided by the user
+             is not valid. This can indicate an error in the handler string (invalid format
+             or non-existent assembly/type/method), error in the type (abstract / generic),
+             error in the method (invalid signature, generic, overloads, or params/varargs),
+             or an error in the Serializer (lacking attribute, invalid type in attribute).
+             The message in this exception is retained when returning the exception to the user.
+             This exception should not have any inner exceptions.
+             Ref: https://w.amazon.com/bin/view/AWS/DeveloperResources/AWSSDKsAndTools/NetSDK/NetLambda/Design/ExceptionHandling/
+             </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.ExceptionHandling.LambdaValidationException.#ctor(System.String)">
+            <summary>
+            Construct instance of LambdaValidationException
+            </summary>
+            <param name="message">The message to display to the user.</param>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.ExceptionHandling.LambdaValidationException.#ctor(System.String,System.Exception)">
+            <summary>
+            Construct instance of LambdaValidationException
+            </summary>
+            <param name="message">The message to display to the user.</param>
+            <param name="innerException">The cause of this exception.</param>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.ExceptionInfo">
+            <summary>
+            Class to hold basic raw information extracted from Exceptions.
+            The raw information will be formatted as JSON to be reported to the Lambda Runtime API.
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.JsonExceptionWriterHelpers.EscapeStringForJson(System.String)">
+             <summary>
+             This method escapes a string for use as a JSON string value.
+             It was adapted from the PutString method in the LitJson.JsonWriter class.
+            
+             TODO: rewrite the *JsonExceptionWriter classes to use a JSON library instead of building strings directly.
+             </summary>
+             <param name="str"></param>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.LambdaJsonExceptionWriter.WriteJson(Amazon.Lambda.RuntimeSupport.ExceptionInfo)">
+            <summary>
+            Write the formatted JSON response for this exception, and all inner exceptions.
+            </summary>
+            <param name="ex">The exception response object to serialize.</param>
+            <returns>The serialized JSON string.</returns>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.Helpers.IConsoleLoggerWriter">
+            <summary>
+            Interface used by bootstrap to format logging message as well as Console WriteLine messages.
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.IConsoleLoggerWriter.SetCurrentAwsRequestId(System.String)">
+            <summary>
+            The current aws request id
+            </summary>
+            <param name="awsRequestId">The AWS request id for the function invocation added to each log message.</param>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.IConsoleLoggerWriter.FormattedWriteLine(System.String)">
+            <summary>
+            Format message with default log level
+            </summary>
+            <param name="message">Message to log.</param>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.IConsoleLoggerWriter.FormattedWriteLine(System.String,System.String,System.Object[])">
+            <summary>
+            Format message with given log level
+            </summary>
+            <param name="level">The level of the log message.</param>
+            <param name="message">Message to log.</param>
+            <param name="args">Arguments to be applied to the log message.</param>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.IConsoleLoggerWriter.FormattedWriteLine(System.String,System.Exception,System.String,System.Object[])">
+            <summary>
+            Format message with given log level
+            </summary>
+            <param name="level">The level of the log message.</param>
+            <param name="exception">Exception to log.</param>
+            <param name="message">Message to log.</param>
+            <param name="args">Arguments to be applied to the log message.</param>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.Helpers.SimpleLoggerWriter">
+            <summary>
+            Simple logger to maintain compatibility with versions of .NET before .NET 6
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.SimpleLoggerWriter.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.SimpleLoggerWriter.SetCurrentAwsRequestId(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.SimpleLoggerWriter.FormattedWriteLine(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.SimpleLoggerWriter.FormattedWriteLine(System.String,System.String,System.Object[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.SimpleLoggerWriter.FormattedWriteLine(System.String,System.Exception,System.String,System.Object[])">
+            <inheritdoc/>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.Helpers.LogLevelLoggerWriter">
+            <summary>
+            Formats log messages with time, request id, log level and message
+            </summary>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.Helpers.LogLevelLoggerWriter.LogLevel">
+            <summary>
+            A mirror of the LogLevel defined in Amazon.Lambda.Core. The version in
+            Amazon.Lambda.Core can not be relied on because the Lambda Function could be using
+            an older version of Amazon.Lambda.Core before LogLevel existed in Amazon.Lambda.Core.
+            </summary>
+        </member>
+        <member name="F:Amazon.Lambda.RuntimeSupport.Helpers.LogLevelLoggerWriter.LogLevel.Trace">
+            <summary>
+            Trace level logging
+            </summary>
+        </member>
+        <member name="F:Amazon.Lambda.RuntimeSupport.Helpers.LogLevelLoggerWriter.LogLevel.Debug">
+            <summary>
+            Debug level logging
+            </summary>
+        </member>
+        <member name="F:Amazon.Lambda.RuntimeSupport.Helpers.LogLevelLoggerWriter.LogLevel.Information">
+            <summary>
+            Information level logging
+            </summary>
+        </member>
+        <member name="F:Amazon.Lambda.RuntimeSupport.Helpers.LogLevelLoggerWriter.LogLevel.Warning">
+            <summary>
+            Warning level logging
+            </summary>
+        </member>
+        <member name="F:Amazon.Lambda.RuntimeSupport.Helpers.LogLevelLoggerWriter.LogLevel.Error">
+            <summary>
+            Error level logging
+            </summary>
+        </member>
+        <member name="F:Amazon.Lambda.RuntimeSupport.Helpers.LogLevelLoggerWriter.LogLevel.Critical">
+            <summary>
+            Critical level logging
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.LogLevelLoggerWriter.#ctor">
+             <summary>
+             Constructor used by bootstrap to put in place a wrapper TextWriter around stdout and stderror so all Console.WriteLine calls
+             will be formatted.
+            
+             Stdout will default log messages to be Information
+             Stderror will default log messages to be Error
+             </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.LogLevelLoggerWriter.#ctor(System.IO.TextWriter,System.IO.TextWriter)">
+            <summary>
+            Construct an instance wrapping std out and std error.
+            </summary>
+            <param name="stdOutWriter"></param>
+            <param name="stdErrorWriter"></param>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.LogLevelLoggerWriter.ConfigureLoggingActionField">
+            <summary>
+            Set a special callback on Amazon.Lambda.Core.LambdaLogger to redirect its logging to FormattedWriteLine.
+            This allows outputting logging with time and request id but not have LogLevel. This is important for
+            Amazon.Lambda.Logging.AspNetCore which already provides a string with a log level.
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.LogLevelLoggerWriter.SetCurrentAwsRequestId(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.LogLevelLoggerWriter.FormattedWriteLine(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.LogLevelLoggerWriter.FormattedWriteLine(System.String,System.String,System.Object[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.LogLevelLoggerWriter.FormattedWriteLine(System.String,System.Exception,System.String,System.Object[])">
+            <inheritdoc/>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.Helpers.LogLevelLoggerWriter.WrapperTextWriter">
+            <summary>
+            Wraps around a provided TextWriter. In normal usage the wrapped TextWriter will either be stdout or stderr.
+            For all calls besides WriteLine and WriteLineAsync call into the wrapped TextWriter. For the WriteLine and WriteLineAsync
+            format the message with time, request id, log level and the provided message.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.RuntimeSupport.Helpers.LogLevelLoggerWriter.WrapperTextWriter.LockObject">
+            <summary>
+            This is typically set to either Console.Out or Console.Error to make sure we acquiring a lock
+            on that object whenever we are going through FormattedWriteLine. This is important for
+            logging that goes through ILambdaLogger that skips going through Console.WriteX. Without
+            this ILambdaLogger only acquires one lock but Console.WriteX acquires 2 locks and we can get deadlocks.
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.LogLevelLoggerWriter.WrapperTextWriter.#ctor(System.IO.TextWriter,System.String)">
+            <summary>
+            Create an instance
+            </summary>
+            <param name="innerWriter"></param>
+            <param name="defaultLogLevel"></param>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.Helpers.FileDescriptorLogFactory">
+            <summary>
+            This class wraps the utility of writing to the Lambda telemetry file descriptor for logging into a standard .NET Stream.
+            The message
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.FileDescriptorLogFactory.GetWriter(System.String)">
+            <summary>
+            Get the StreamWriter for the particular file descriptor ID. If the same ID is passed the same StreamWriter instance is returned.
+            </summary>
+            <param name="fileDescriptorId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.FileDescriptorLogFactory.InitializeWriter(System.IO.Stream)">
+            <summary>
+            Initialize a StreamWriter for the given Stream.
+            This method is internal as it is tested in Amazon.RuntimeSupport.Tests
+            </summary>
+            <param name="fileDescriptorStream"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.Helpers.FileDescriptorLogFactory.FileDescriptorLogStream">
+            <summary>
+            Write log message to the file descriptor which will make sure the message is recorded as a single CloudWatch Log record.
+            The format of the message must be:
+            0                      4                        8                      16
+            +----------------------+------------------------+-----------------------+-----------------------+
+            | Frame Type - 4 bytes | Length (len) - 4 bytes | Timestamp - 8 bytes   | Message - 'len' bytes |
+            +----------------------+------------------------+-----------------------+-----------------------+
+            The first 4 bytes are the frame type. For logs with timestamps this is always 0xa55a0003.
+            The second 4 bytes are the length of the message.
+            Next is 8 bytes timestamp of emitting the message expressed as microseconds since UNIX epoch.
+            The remaining bytes are the message itself. Byte order is big-endian.
+            </summary>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.Helpers.FileDescriptorLogFactory.NonDisposableStreamWriter">
+            <summary>
+            This class is used to ensure the StreamWriter that is returned can not be unintentionally closed/disposed by users.
+            If we allow the stream to be closed/disposed then future logging in the Lambda function will fail with object disposed exceptions.
+            This situation was discovered for a function using NUnitLite to run tests and that library would trigger a dispose on Console.Out
+            https://github.com/nunit/nunit/blob/92180f13381621e308b01f0abd1a397cc1350c12/src/NUnitFramework/nunitlite/TextRunner.cs#L104
+            </summary>
+        </member>
+        <member name="F:Amazon.Lambda.RuntimeSupport.Helpers.HandlerInfo.HandlerSeparator">
+            <summary>
+            Separator for different handler components.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.RuntimeSupport.Helpers.HandlerInfo.AssemblyName">
+            <summary>
+            Name of the user assembly.
+            Does not contain ".dll" extension.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.RuntimeSupport.Helpers.HandlerInfo.TypeName">
+            <summary>
+            Full type name.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.RuntimeSupport.Helpers.HandlerInfo.MethodName">
+            <summary>
+            Method name.
+            This value can be equal to MethodInfo.Name (such as "DownloadManifest"),
+            or it can be equal to MethodInfo.ToString() (such as "System.Uri DownloadManifest(Int64)")
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.HandlerInfo.#ctor(System.String)">
+            <summary>
+            Constructs an instance of HandlerInfo for a given handler string.
+            </summary>
+            <param name="handler"></param>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.InternalLogger.#ctor(System.Action{System.String})">
+            <summary>
+            Constructs InternalLogger which logs to the internalLoggingAction.
+            </summary>
+            <param name="internalLoggingAction"></param>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.InternalLogger.GetCustomInternalLogger(System.Action{System.String})">
+            <summary>
+            Gets an InternalLogger with a custom logging action.
+            Mainly used for unit testing
+            </summary>
+            <param name="loggingAction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.InternalLogger.GetDefaultLogger">
+            <summary>
+            Gets the default logger for the environment based on the "LAMBDA_RUNTIMESUPPORT_DEBUG" environment variable
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.Helpers.Logging.AbstractLogMessageFormatter">
+            <summary>
+            Base class of log message formatters.
+            </summary>
+        </member>
+        <member name="F:Amazon.Lambda.RuntimeSupport.Helpers.Logging.AbstractLogMessageFormatter.MESSAGE_TEMPLATE_PARSE_CACHE">
+            <summary>
+            Use a cache to look-up formatter so we don't have to parse the format for every entry.
+            </summary>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.Helpers.Logging.AbstractLogMessageFormatter.LogFormatParserState">
+            <summary>
+            States in the log format parser state machine.
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.Logging.AbstractLogMessageFormatter.ParseProperties(System.String)">
+            <summary>
+            Parse the message template for all message properties.
+            </summary>
+            <param name="messageTemplate">The message template users passed in as the log message.</param>
+            <returns>List of MessageProperty objects detected by parsing the message template.</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.Logging.AbstractLogMessageFormatter.FormatMessage(Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageState)">
+            <summary>
+            Subclasses to implement to format the message given the requirements of the subclass.
+            </summary>
+            <param name="state">The state of the message to log.</param>
+            <returns>The full log message to send to CloudWatch Logs.</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.Logging.AbstractLogMessageFormatter.FormatTimestamp(Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageState)">
+            <summary>
+            Format the timestamp of the log message in format Lambda service prefers.
+            </summary>
+            <param name="state">The state of the message to log.</param>
+            <returns>Timestamp formatted for logging.</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.Logging.AbstractLogMessageFormatter.ApplyMessageProperties(System.String,System.Collections.Generic.IReadOnlyList{Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageProperty},System.Object[])">
+            <summary>
+            Replace all message properties in message templates with formatted values from the arguments passed in.
+            </summary>
+            <param name="messageTemplate"></param>
+            <param name="messageProperties"></param>
+            <param name="messageArguments"></param>
+            <returns>The log message with logging arguments replaced with the values.</returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.Logging.AbstractLogMessageFormatter.UsingPositionalArguments(System.Collections.Generic.IReadOnlyList{Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageProperty})">
+            <summary>
+            Check to see if the properties in a message are using a position instead of names.
+            Positional example:
+                Log Message: "{0} {1} {0}"
+                Arguments: "Arg1", "Arg2"
+                Formatted Message: "Arg1 Arg2 Arg1"
+            Name example:
+                Log Message: "{name} {age} {home}
+                Arguments: "Lewis", 15, "Washington
+                Formatted Message: "Lewis 15 Washington"
+            </summary>
+            <param name="messageProperties"></param>
+            <returns>True of the logging arguments are positional</returns>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.Helpers.Logging.DefaultLogMessageFormatter">
+            <summary>
+            The default log message formatter that log the message as a simple string. Replacing any message properties
+            in the message with provided arguments. The message will be prefixed with the timestamp, request id and 
+            log level unless constructed passing in false for addPrefix.
+            
+            This formatter matches is the logging format introduced as part of the .NET 6 managed runtime.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.RuntimeSupport.Helpers.Logging.DefaultLogMessageFormatter.AddPrefix">
+            <summary>
+            If true timestamp, request id and log level are added as a prefix to every log message.
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.Logging.DefaultLogMessageFormatter.#ctor(System.Boolean)">
+            <summary>
+            Constructs an instance of DefaultLogMessageFormatter.
+            </summary>
+            <param name="addPrefix">If true timestamp, request id and log level are added as a prefix to every log message.</param>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.Logging.DefaultLogMessageFormatter.FormatMessage(Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageState)">
+            <summary>
+            Format the log message applying in message property replacements and adding a prefix unless disabled.
+            </summary>
+            <param name="state"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.Logging.DefaultLogMessageFormatter.ConvertLogLevelToLabel(Amazon.Lambda.RuntimeSupport.Helpers.LogLevelLoggerWriter.LogLevel)">
+            <summary>
+            Convert LogLevel enums to the the same string label that console provider for Microsoft.Extensions.Logging.ILogger uses.
+            </summary>
+            <param name="level"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.Helpers.Logging.ILogMessageFormatter">
+            <summary>
+            The interface for defining log formatters that the ConsoleLogFormatter will use to format the incoming log messages
+            before sending the log message to the Lambda service.
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.Logging.ILogMessageFormatter.FormatMessage(Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageState)">
+            <summary>
+            Format the log message
+            </summary>
+            <param name="state"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.Helpers.Logging.JsonLogMessageFormatter">
+            <summary>
+            Formats the log message as a structured JSON log message.
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.Logging.JsonLogMessageFormatter.#ctor">
+            <summary>
+            Constructs an instance of JsonLogMessageFormatter.
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.Logging.JsonLogMessageFormatter.FormatMessage(Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageState)">
+            <summary>
+            Format the log message as a structured JSON log message.
+            </summary>
+            <param name="state"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.Logging.JsonLogMessageFormatter.WriteMessageAttributes(System.Text.Json.Utf8JsonWriter,System.Collections.Generic.IReadOnlyList{Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageProperty},Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageState)">
+            <summary>
+            Write any message properties for the log message as top level JSON properties.
+            </summary>
+            <param name="writer"></param>
+            <param name="messageProperties"></param>
+            <param name="state"></param>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.Logging.JsonLogMessageFormatter.WriteException(System.Text.Json.Utf8JsonWriter,Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageState)">
+            <summary>
+            Add the exception information as top level JSON properties
+            </summary>
+            <param name="writer"></param>
+            <param name="state"></param>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.Logging.JsonLogMessageFormatter.FormatJsonValue(System.Text.Json.Utf8JsonWriter,System.Object,System.String,Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageProperty.Directive)">
+            <summary>
+            Format the value to be included in the structured log message.
+            </summary>
+            <param name="writer"></param>
+            <param name="value"></param>
+            <param name="formatArguments"></param>
+            <param name="directive"></param>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageProperty">
+            <summary>
+            Represents a message property in a message template. For example the message 
+            template "User bought {count} of {product}" has count and product as message properties.
+            
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageProperty.#ctor(System.ReadOnlySpan{System.Char})">
+            <summary>
+            Parse the string representation of the message property without the brackets 
+            to construct the MessageProperty. 
+            </summary>
+            <param name="messageToken"></param>
+        </member>
+        <member name="P:Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageProperty.MessageToken">
+            <summary>
+            The original text of the message property.
+            </summary>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageProperty.Directive">
+            <summary>
+            Enum for controlling the formatting of complex logging arguments.
+            </summary>
+        </member>
+        <member name="F:Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageProperty.Directive.Default">
+            <summary>
+            Perform a string formatting for the logging argument.
+            </summary>
+        </member>
+        <member name="F:Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageProperty.Directive.JsonSerialization">
+            <summary>
+            Perform a JSON serialization on the logging argument.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageProperty.Name">
+            <summary>
+            The Name of the message property.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageProperty.FormatArgument">
+            <summary>
+            Optional format argument. If used the value will be formatted using string.Format passing in this format argument.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageProperty.FormatDirective">
+            <summary>
+            Optional format directive. Gives users the ability
+            to indicate when types should be serialized to JSON when using structured logging.
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageProperty.FormatForMessage(System.Object)">
+            <summary>
+            Formats the value as a string that can be used to replace the message property token inside a message template.
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageProperty.ApplyFormatArgument(System.Object,System.String)">
+            <summary>
+            If format argument is provided formats the value using string.Format otherwise returns
+            the ToString value.
+            </summary>
+            <param name="value"></param>
+            <param name="formatArgument"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageProperty.FormatByteArray(System.ReadOnlySpan{System.Byte})">
+            <summary>
+            Formats byte span, including byte arrays, as a hex string. If the byte span is long the hex string
+            will be truncated with a suffix added for the count of the byte span.
+            </summary>
+            <param name="bytes"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageState">
+            <summary>
+            The state of the environment for a log message that needs to be logged.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageState.TimeStamp">
+            <summary>
+            The timestamp of the log message.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageState.AwsRequestId">
+            <summary>
+            The AWS request id for the Lambda invocation. This property can be null
+            if logging before the first event.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageState.TraceId">
+            <summary>
+            The current trace id if available.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageState.MessageTemplate">
+            <summary>
+            The message template the Lambda function has sent to RuntimeSupport. It may include message properties in the template
+            for example the message template "User bought {count} of {product}" has count and product as message properties.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageState.MessageArguments">
+            <summary>
+            The values to replace for any message properties in the message template.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageState.Level">
+            <summary>
+            The log level of the message being logged.
+            </summary>
+        </member>
+        <member name="P:Amazon.Lambda.RuntimeSupport.Helpers.Logging.MessageState.Exception">
+            <summary>
+            An exception to be logged along with the log message.
+            </summary>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.Helpers.RuntimeSupportDebugAttacher">
+            <summary>
+            RuntimeSupportDebugAttacher class responsible for waiting for a debugger to attach.
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.RuntimeSupportDebugAttacher.#ctor">
+            <summary>
+            RuntimeSupportDebugAttacher constructor.
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.RuntimeSupportDebugAttacher.TryAttachDebugger">
+            <summary>
+            The function tries to wait for a debugger to attach.
+            </summary>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.Helpers.Types">
+            <summary>
+            Static methods for working with types
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.Types.IsILambdaContext(System.Type)">
+            <summary>
+            Returns true if type is ILambdaContext
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Helpers.Types.IsLambdaSerializerAttribute(System.Type)">
+            <summary>
+            Returns true if type is LambdaSerializerAttribute (but not if type extends LambdaSerializerAttribute)
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.RuntimeSupportInitializer">
+            <summary>
+            RuntimeSupportInitializer class responsible for initializing the UserCodeLoader and LambdaBootstrap given a function handler.
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.RuntimeSupportInitializer.#ctor(System.String)">
+            <summary>
+            Class constructor that takes a Function Handler and initializes the class.
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.RuntimeSupportInitializer.RunLambdaBootstrap">
+            <summary>
+            Initializes the UserCodeLoader using the Function Handler and runs LambdaBootstrap asynchronously.
+            </summary>
+        </member>
+        <member name="T:Amazon.Lambda.RuntimeSupport.Serializers.StreamSerializer">
+            <summary>
+            Data serializer that converts stream to stream
+            </summary>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Serializers.StreamSerializer.Deserialize(System.IO.Stream)">
+            <summary>
+            Deserializes a Lambda stream to the input type
+            </summary>
+            <param name="lambdaData"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Amazon.Lambda.RuntimeSupport.Serializers.StreamSerializer.Serialize(System.IO.Stream,System.IO.Stream)">
+            <summary>
+            Serializes the output type to a Lambda stream
+            </summary>
+            <param name="customerData"></param>
+            <param name="outStream"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
