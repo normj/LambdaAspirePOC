@@ -13,7 +13,7 @@ public class LambdaFunctions
     public class ExecutableLambdaFunction : LambdaFunctionMetadata
     {
         public ExecutableLambdaFunction() :
-            base(@"C:\Users\normj\source\repos\LambdaAspirePOC\ExecutableLambdaFunction\ExecutableLambdaFunction.csproj", "ExecutableLambdaFunction", false)
+            base(@"C:\gitrepos\LambdaAspirePOC\ExecutableLambdaFunction\ExecutableLambdaFunction.csproj", "ExecutableLambdaFunction", false)
         {
 
         }
@@ -22,7 +22,7 @@ public class LambdaFunctions
     public class ClassLibraryLambdaFunction : LambdaFunctionMetadata
     {
         public ClassLibraryLambdaFunction() :
-            base(@"C:\Users\normj\source\repos\LambdaAspirePOC\ClassLibraryLambdaFunction\ClassLibraryLambdaFunction.csproj", "ClassLibraryLambdaFunction::ClassLibraryLambdaFunction.Function::FunctionHandler", true)
+            base(@"C:\gitrepos\LambdaAspirePOC\ClassLibraryLambdaFunction\ClassLibraryLambdaFunction.csproj", "ClassLibraryLambdaFunction::ClassLibraryLambdaFunction.Function::FunctionHandler", true)
         {
             
         }

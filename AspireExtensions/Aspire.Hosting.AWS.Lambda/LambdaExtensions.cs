@@ -12,7 +12,7 @@ public static class LambdaExtensions
         var emulator = builder.AddExecutable($"LambdaEmulator-{name}",
                                                 "dotnet",
                                                 // TODO Detect the working directory based on relative location from this Assembly.
-                                                "C:\\Users\\normj\\source\\repos\\LambdaAspirePOC\\AspireExtensions\\Aspire.Hosting.AWS.LambdaEmulator",
+                                                "C:\\gitrepos\\LambdaAspirePOC\\AspireExtensions\\Aspire.Hosting.AWS.LambdaEmulator",
                                                 "exec",
                                                 "bin\\Debug\\net8.0\\Aspire.Hosting.AWS.LambdaEmulator.dll")
                                 .ExcludeFromManifest();
