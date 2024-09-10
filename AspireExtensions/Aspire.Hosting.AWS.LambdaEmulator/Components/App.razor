@@ -5,13 +5,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/" />
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link href="css/font-awesome.min.css" rel="stylesheet" />
+    <link href="css/blazored-modal.css" rel="stylesheet" />
     <link rel="stylesheet" href="app.css" />
     <link rel="stylesheet" href="Aspire.Hosting.AWS.LambdaEmulator.styles.css" />
     <HeadOutlet @rendermode="InteractiveServer" />
 </head>
 
 <body>
-    <Routes @rendermode="InteractiveServer" />
+    <div style="margin:50px">
+        <Routes @rendermode="InteractiveServer" />
+    </div>
     <script src="_framework/blazor.web.js"></script>
 </body>
 

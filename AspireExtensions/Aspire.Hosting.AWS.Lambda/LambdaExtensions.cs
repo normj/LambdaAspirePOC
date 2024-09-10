@@ -18,6 +18,7 @@ public static class LambdaExtensions
                                 .ExcludeFromManifest();
 
         emulator.WithEnvironment("ASPNETCORE_ENVIRONMENT", "Development");
+        emulator.WithEnvironment("LAMBDA_FUNCTION_RESOURCE_NAME", name);
 
         var annotation = new EndpointAnnotation(
             protocol: ProtocolType.Tcp,
