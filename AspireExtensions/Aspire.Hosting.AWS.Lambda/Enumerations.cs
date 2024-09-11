@@ -6,4 +6,4 @@ using System.Threading.Tasks;
 
 namespace Aspire.Hosting.AWS.Lambda;
 
-public enum WebEventSourceType { HttpApi, RestApi}
+public enum HttpEventSourceType { HttpApi, RestApi}

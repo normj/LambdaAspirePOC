@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Aspire.Hosting.AWS.Lambda;
 
-internal class WebFrontendAnnotation : IResourceAnnotation
+internal class HttpEventSourceAnnotation : IResourceAnnotation
 {
-    public WebFrontendAnnotation (WebEventSourceType frontendType)
+    public HttpEventSourceAnnotation (HttpEventSourceType frontendType)
     {
         FrontendType = frontendType;
     }
 
-    public WebEventSourceType FrontendType { get; init; }
+    public HttpEventSourceType FrontendType { get; init; }
 }

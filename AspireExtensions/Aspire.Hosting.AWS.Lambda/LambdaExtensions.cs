@@ -64,16 +64,16 @@ public static class LambdaExtensions
         return resource;
     }
 
-    public static IResourceBuilder<LambdaProjectResource> WithHttpEventSource(this IResourceBuilder<LambdaProjectResource> resourceBuilder, WebEventSourceType frontendType)
+    public static IResourceBuilder<LambdaProjectResource> WithHttpEventSource(this IResourceBuilder<LambdaProjectResource> resourceBuilder, HttpEventSourceType frontendType)
     {
         if (!resourceBuilder.Resource.TryGetLastAnnotation<LambdaEmulatorAnnotation>(out var lambdaEmulatorAnnotation))
         {
             return resourceBuilder;
         }
 
-        resourceBuilder.WithAnnotation(new WebFrontendAnnotation(frontendType));
+        resourceBuilder.WithAnnotation(new HttpEventSourceAnnotation(frontendType));
 
-        var webEventSource = resourceBuilder.ApplicationBuilder.AddExecutable($"LambdaWebFrontend-{resourceBuilder.Resource.Name}",
+        var httpEventSource = resourceBuilder.ApplicationBuilder.AddExecutable($"LambdaWebFrontend-{resourceBuilder.Resource.Name}",
                                                 "dotnet",
                                                 // TODO Detect the working directory based on relative location from this Assembly.
                                                 "C:\\gitrepos\\LambdaAspirePOC\\AspireExtensions\\Aspire.Hosting.AWS.Lambda.WebFrontend",
@@ -81,41 +81,25 @@ public static class LambdaExtensions
                                                 "bin\\Debug\\net8.0\\Aspire.Hosting.AWS.Lambda.WebFrontend.dll")
                                 .ExcludeFromManifest();
 
-        webEventSource.WithEnvironment("ASPNETCORE_ENVIRONMENT", "Development");
-        webEventSource.WithEnvironment("LAMBDA_FUNCTION_RESOURCE_NAME", resourceBuilder.Resource.Name);
+        httpEventSource.WithEnvironment("ASPNETCORE_ENVIRONMENT", "Development");
+        httpEventSource.WithEnvironment("LAMBDA_FUNCTION_RESOURCE_NAME", resourceBuilder.Resource.Name);
 
         var annotation = new EndpointAnnotation(
             protocol: ProtocolType.Tcp,
             uriScheme: "http");
 
-        webEventSource.WithAnnotation(annotation);
-        var endpointReference = new EndpointReference(webEventSource.Resource, annotation);
+        httpEventSource.WithAnnotation(annotation);
+        var endpointReference = new EndpointReference(httpEventSource.Resource, annotation);
 
 
-        webEventSource.WithAnnotation(new EnvironmentCallbackAnnotation(context =>
+        httpEventSource.WithAnnotation(new EnvironmentCallbackAnnotation(context =>
         {
             var aspnetCoreUrls = new ReferenceExpressionBuilder();
             aspnetCoreUrls.Append($"{endpointReference.Property(EndpointProperty.Scheme)}://localhost:{endpointReference.Property(EndpointProperty.TargetPort)}");
             context.EnvironmentVariables["ASPNETCORE_URLS"] = aspnetCoreUrls.Build();
         }));
 
-        webEventSource.WithReference(lambdaEmulatorAnnotation.Endpoint);
-
-
-        //lambdaEmulatorAnnotation.ExecutableBuilder.WithAnnotation(new EnvironmentCallbackAnnotation(context =>
-        //{
-        //    var emulatorUrl = new ReferenceExpressionBuilder();
-        //    emulatorUrl.Append($"{lambdaEmulatorAnnotation.Endpoint.Property(EndpointProperty.Scheme)}://localhost:{lambdaEmulatorAnnotation.Endpoint.Property(EndpointProperty.TargetPort)}");
-        //    webEventSource.WithEnvironment("LAMBDA_EMULATOR_URL", emulatorUrl.Build());
-        //}));
-
-        //webEventSource.WithAnnotation(new EnvironmentCallbackAnnotation(context =>
-        //{
-        //    var emulatorUrl = new ReferenceExpressionBuilder();
-        //    emulatorUrl.Append($"{lambdaEmulatorAnnotation.Endpoint.Property(EndpointProperty.Scheme)}://localhost:{lambdaEmulatorAnnotation.Endpoint.Property(EndpointProperty.TargetPort)}");
-        //    context.EnvironmentVariables["LAMBDA_EMULATOR_URL"] = emulatorUrl.Build();
-        //}));
-
+        httpEventSource.WithReference(lambdaEmulatorAnnotation.Endpoint);
         return resourceBuilder;
     }
 }
