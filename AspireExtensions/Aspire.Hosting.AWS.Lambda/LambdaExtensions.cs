@@ -64,7 +64,7 @@ public static class LambdaExtensions
         return resource;
     }
 
-    public static IResourceBuilder<LambdaProjectResource> WithWebEventSource(this IResourceBuilder<LambdaProjectResource> resourceBuilder, WebEventSourceType frontendType)
+    public static IResourceBuilder<LambdaProjectResource> WithHttpEventSource(this IResourceBuilder<LambdaProjectResource> resourceBuilder, WebEventSourceType frontendType)
     {
         if (!resourceBuilder.Resource.TryGetLastAnnotation<LambdaEmulatorAnnotation>(out var lambdaEmulatorAnnotation))
         {

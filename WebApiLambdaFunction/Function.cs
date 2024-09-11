@@ -42,6 +42,7 @@ var handler = (APIGatewayHttpApiV2ProxyRequest request, ILambdaContext context) 
         };
     }
 
+    Console.WriteLine($"Status Code: {response.StatusCode}, Body {response.Body}");
     return response;
 };
 
