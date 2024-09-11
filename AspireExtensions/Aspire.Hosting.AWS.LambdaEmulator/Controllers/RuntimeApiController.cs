@@ -14,6 +14,21 @@ public class RuntimeApiController : ControllerBase
         _runtimeApiDataStore = runtimeApiDataStore;
     }
 
+    [HttpPost("/runtime/test-event-sync")]
+    public async Task<IActionResult> PostTestEventSync()
+    {
+        using var reader = new StreamReader(Request.Body);
+        var testEvent = await reader.ReadToEndAsync();
+        var evnt = _runtimeApiDataStore.QueueEvent(testEvent);
+        
+        while (evnt.EventStatus != IEventContainer.Status.Success && evnt.EventStatus != IEventContainer.Status.Failure)
+        {
+            await Task.Delay(50);
+        }
+
+        return Ok(evnt.Response);
+    }
+
     [HttpPost("/runtime/test-event")]
     [HttpPost("/2015-03-31/functions/function/invocations")]
     public async Task<IActionResult> PostTestEvent()

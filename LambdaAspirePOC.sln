@@ -16,6 +16,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClassLibraryLambdaFunction"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aspire.Hosting.AWS.LambdaEmulator", "AspireExtensions\Aspire.Hosting.AWS.LambdaEmulator\Aspire.Hosting.AWS.LambdaEmulator.csproj", "{B872A898-167D-4DC5-92A2-E42D72EE68EB}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiLambdaFunction", "WebApiLambdaFunction\WebApiLambdaFunction.csproj", "{4A9A9905-609E-45B1-8612-A777FF792AE1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspire.Hosting.AWS.Lambda.WebFrontend", "AspireExtensions\Aspire.Hosting.AWS.Lambda.WebFrontend\Aspire.Hosting.AWS.Lambda.WebFrontend.csproj", "{02988728-26EF-4DF7-9DBD-02DAD6ABB566}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +50,14 @@ Global
 		{B872A898-167D-4DC5-92A2-E42D72EE68EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B872A898-167D-4DC5-92A2-E42D72EE68EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B872A898-167D-4DC5-92A2-E42D72EE68EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A9A9905-609E-45B1-8612-A777FF792AE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A9A9905-609E-45B1-8612-A777FF792AE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A9A9905-609E-45B1-8612-A777FF792AE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A9A9905-609E-45B1-8612-A777FF792AE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02988728-26EF-4DF7-9DBD-02DAD6ABB566}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02988728-26EF-4DF7-9DBD-02DAD6ABB566}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02988728-26EF-4DF7-9DBD-02DAD6ABB566}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02988728-26EF-4DF7-9DBD-02DAD6ABB566}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +65,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{B0FEC2FF-B870-41D1-9DFE-4571A9FD23B9} = {84CBE1FA-85E9-4BAA-BCC1-E3A59C7B37EF}
 		{B872A898-167D-4DC5-92A2-E42D72EE68EB} = {84CBE1FA-85E9-4BAA-BCC1-E3A59C7B37EF}
+		{02988728-26EF-4DF7-9DBD-02DAD6ABB566} = {84CBE1FA-85E9-4BAA-BCC1-E3A59C7B37EF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7DC846C2-A9ED-4E4B-9E5C-627ED224CDC8}

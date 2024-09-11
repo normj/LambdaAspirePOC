@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Aspire.Hosting.AWS.Lambda.WebFrontend\Aspire.Hosting.AWS.Lambda.WebFrontend.csproj" />
     <ProjectReference Include="..\Aspire.Hosting.AWS.LambdaEmulator\Aspire.Hosting.AWS.LambdaEmulator.csproj" />
   </ItemGroup>
 	

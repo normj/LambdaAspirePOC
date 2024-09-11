@@ -27,4 +27,13 @@ public class LambdaFunctions
             
         }
     }
+
+    public class WebApiLambdaFunction : LambdaFunctionMetadata
+    {
+        public WebApiLambdaFunction() :
+            base(@"C:\gitrepos\LambdaAspirePOC\WebApiLambdaFunction\WebApiLambdaFunction.csproj", "WebApiLambdaFunction", false)
+        {
+
+        }
+    }
 }

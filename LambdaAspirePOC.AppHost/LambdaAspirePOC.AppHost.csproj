@@ -16,7 +16,8 @@
   <ItemGroup>
     <ProjectReference Include="..\AspireExtensions\Aspire.Hosting.AWS.Lambda\Aspire.Hosting.AWS.Lambda.csproj" IsAspireProjectResource="false" />
     <ProjectReference Include="..\ExecutableLambdaFunction\ExecutableLambdaFunction.csproj" />
-    <ProjectReference Include="..\ClassLibraryLambdaFunction\ClassLibraryLambdaFunction.csproj" />	  
+    <ProjectReference Include="..\ClassLibraryLambdaFunction\ClassLibraryLambdaFunction.csproj" />
+    <ProjectReference Include="..\WebApiLambdaFunction\WebApiLambdaFunction.csproj" />	  
   </ItemGroup>
 
 </Project>
