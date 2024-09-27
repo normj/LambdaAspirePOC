@@ -37,7 +37,7 @@ public class LambdaRuntimeApiController : ControllerBase
 
     [HttpPost("/{functionName}/runtime/test-event")]
     [HttpPost("/{functionName}/2015-03-31/functions/function/invocations")]
-    [HttpPost("/2015-03-31/functions/{functionName}/2015-03-31/functions/function/invocations")]
+    [HttpPost("/2015-03-31/functions/{functionName}/invocations")]
     public async Task<IActionResult> PostTestEvent(string functionName)
     {
         _logger.LogDebug("PostTestEvent: {functionName}", functionName);
@@ -46,7 +46,18 @@ public class LambdaRuntimeApiController : ControllerBase
 
         using var reader = new StreamReader(Request.Body);
         var testEvent = await reader.ReadToEndAsync();
-        runtimeDataStore.QueueEvent(testEvent);
+        var evnt = runtimeDataStore.QueueEvent(testEvent);
+
+        if (base.HttpContext.Request.Headers.TryGetValue("X-Amz-Invocation-Type", out var invocationType) && 
+            string.Equals(invocationType, "RequestResponse", StringComparison.CurrentCultureIgnoreCase))
+        {
+            while (evnt.EventStatus != IEventContainer.Status.Success && evnt.EventStatus != IEventContainer.Status.Failure)
+            {
+                await Task.Delay(50);
+            }
+
+            return Ok(evnt.Response);
+        }
 
         return Accepted();
     }

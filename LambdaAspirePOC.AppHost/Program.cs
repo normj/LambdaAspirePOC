@@ -15,7 +15,7 @@ if (httpFunction == null)
 }
 
 
-builder.AddAPIGatewayEmulator("webfrontend", APIGatewayType.HttpApi)
+builder.AddAPIGatewayEmulator("APIGatewayEmulator", APIGatewayType.HttpApi)
         .WithReference(httpFunction, Method.Any, "/");
 
 

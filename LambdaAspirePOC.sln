@@ -18,7 +18,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiLambdaFunction", "Web
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aspire.Hosting.AWS.Lambda.WebFrontend", "AspireExtensions\Aspire.Hosting.AWS.Lambda.WebFrontend\Aspire.Hosting.AWS.Lambda.WebFrontend.csproj", "{02988728-26EF-4DF7-9DBD-02DAD6ABB566}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspire.Hosting.AWS.LambdaServiceEmulator", "AspireExtensions\Aspire.Hosting.AWS.LambdaServiceEmulator\Aspire.Hosting.AWS.LambdaServiceEmulator.csproj", "{A2BA45CD-EFCF-41B8-A68E-A91135527817}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aspire.Hosting.AWS.LambdaServiceEmulator", "AspireExtensions\Aspire.Hosting.AWS.LambdaServiceEmulator\Aspire.Hosting.AWS.LambdaServiceEmulator.csproj", "{A2BA45CD-EFCF-41B8-A68E-A91135527817}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LambdaAspirePOC.E2E.Tests", "LambdaAspirePOC.E2E.Tests\LambdaAspirePOC.E2E.Tests.csproj", "{7F65C847-D175-4D45-827C-14C4EA0878CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,6 +60,10 @@ Global
 		{A2BA45CD-EFCF-41B8-A68E-A91135527817}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2BA45CD-EFCF-41B8-A68E-A91135527817}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2BA45CD-EFCF-41B8-A68E-A91135527817}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F65C847-D175-4D45-827C-14C4EA0878CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F65C847-D175-4D45-827C-14C4EA0878CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F65C847-D175-4D45-827C-14C4EA0878CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F65C847-D175-4D45-827C-14C4EA0878CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
