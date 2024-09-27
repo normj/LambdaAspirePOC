@@ -1,4 +1,4 @@
-namespace Aspire.Hosting.AWS.LambdaEmulator
+namespace Aspire.Hosting.AWS.LambdaServiceEmulator
 {
     public class Constants
     {

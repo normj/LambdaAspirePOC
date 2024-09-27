@@ -1,4 +1,4 @@
-namespace Aspire.Hosting.AWS.LambdaEmulator.SampleRequests
+namespace Aspire.Hosting.AWS.LambdaServiceEmulator.SampleRequests
 {
     public class LambdaRequest
     {

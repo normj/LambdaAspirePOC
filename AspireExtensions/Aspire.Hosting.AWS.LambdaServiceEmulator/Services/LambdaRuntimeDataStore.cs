@@ -1,8 +1,8 @@
 using System.Collections.ObjectModel;
 
-namespace Aspire.Hosting.AWS.LambdaEmulator.Services;
+namespace Aspire.Hosting.AWS.LambdaServiceEmulator.Services;
 
-public interface IRuntimeApiDataStore
+public interface ILambdaRuntimeDataStore
 {
     EventContainer QueueEvent(string eventBody);
     
@@ -27,7 +27,7 @@ public interface IRuntimeApiDataStore
     void ReportError(string awsRequestId, string errorType, string errorBody);
 }
 
-public class RuntimeApiDataStore : IRuntimeApiDataStore
+public class LambdaRuntimeDataStore : ILambdaRuntimeDataStore
 {
     private IList<EventContainer> _queuedEvents = new List<EventContainer>();
     private IList<EventContainer> _executedEvents = new List<EventContainer>();
@@ -232,8 +232,8 @@ public class EventContainer : IEventContainer
         }
     }
 
-    private readonly RuntimeApiDataStore _dataStore;
-    public EventContainer(RuntimeApiDataStore dataStore, int eventCount, string eventJson)
+    private readonly LambdaRuntimeDataStore _dataStore;
+    public EventContainer(LambdaRuntimeDataStore dataStore, int eventCount, string eventJson)
     {
         LastUpdated = DateTime.Now;
         this._dataStore = dataStore;

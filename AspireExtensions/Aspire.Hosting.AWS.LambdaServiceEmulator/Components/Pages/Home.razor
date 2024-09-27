@@ -1,15 +1,22 @@
 ﻿@page "/"
 
-@using Aspire.Hosting.AWS.LambdaEmulator.Services;
-@using Aspire.Hosting.AWS.LambdaEmulator.SampleRequests;
+@using Aspire.Hosting.AWS.LambdaServiceEmulator.Services;
+@using Aspire.Hosting.AWS.LambdaServiceEmulator.SampleRequests;
 @using Microsoft.AspNetCore.Http;
 
 @inject IHttpContextAccessor httpContextAccessor;
-@inject IRuntimeApiDataStore RuntimeApiModel
+@inject ILambdaRuntimeDataStoreManager RuntimeDataStoreManager
 @inject IModalService Modal
 
 <h2>
-    Lambda Event Emulator: @Environment.GetEnvironmentVariable("LAMBDA_FUNCTION_RESOURCE_NAME")</h2>
+    Lambda Event Emulator: 
+    <select class="control" id="function-picker" @bind="SelectedFunctionName">
+        @foreach (var name in RuntimeDataStoreManager.GetListOfFunctionNames())
+        {
+            <option value="@name">@name</option>
+        }
+    </select>
+</h2>
 
 
 <div class="row">
@@ -171,6 +178,24 @@
 
     private IDictionary<string, IList<LambdaRequest>> SampleRequests { get; set; }
 
+    private ILambdaRuntimeDataStore RuntimeApiModel { get; set; }
+
+    string _selectedFunctionName;
+    string SelectedFunctionName
+    {
+        get => this._selectedFunctionName;
+        set
+        {
+            this._selectedFunctionName = value;
+
+            RuntimeApiModel.StateChange -= RuntimeApiModelOnStateChange;
+            RuntimeApiModel = RuntimeDataStoreManager.GetLambdaRuntimeDataStore(SelectedFunctionName);
+            RuntimeApiModel.StateChange += RuntimeApiModelOnStateChange;
+
+            this.StateHasChanged();
+        }
+    }
+
     string _selectedSampleRequestName;
     string SelectedSampleRequestName
     {
@@ -190,7 +215,17 @@
 
     protected override void OnInitialized()
     {
-        RuntimeApiModel.StateChange += RuntimeApiModelOnStateChange;
+        var names = RuntimeDataStoreManager.GetListOfFunctionNames();
+        if (names?.Length > 0)
+        {
+            RuntimeApiModel = RuntimeDataStoreManager.GetLambdaRuntimeDataStore(names[0]);
+            RuntimeApiModel.StateChange += RuntimeApiModelOnStateChange;
+        }
+        else
+        {
+            RuntimeApiModel = new LambdaRuntimeDataStore();
+        }
+
         this.SampleRequestManager = new SampleRequestManager(@"C:\temp\lambdasamples"); // TODO FIx THIS
         this.SampleRequests = SampleRequestManager.GetSampleRequests();
     }

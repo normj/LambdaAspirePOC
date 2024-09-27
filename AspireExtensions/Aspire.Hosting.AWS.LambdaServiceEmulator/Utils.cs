@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Aspire.Hosting.AWS.LambdaEmulator;
+namespace Aspire.Hosting.AWS.LambdaServiceEmulator;
 
 public static class Utils
 {
@@ -9,7 +9,7 @@ public static class Utils
         try
         {
             var doc = JsonDocument.Parse(data);
-            var prettyPrintJson = System.Text.Json.JsonSerializer.Serialize(doc, new JsonSerializerOptions()
+            var prettyPrintJson = JsonSerializer.Serialize(doc, new JsonSerializerOptions()
             {
                 WriteIndented = true
             });

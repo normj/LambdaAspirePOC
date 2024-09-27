@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace Aspire.Hosting.AWS.LambdaEmulator.SampleRequests
+namespace Aspire.Hosting.AWS.LambdaServiceEmulator.SampleRequests
 {
     /// <summary>
     /// This class manages the sample Lambda input requests. This includes the precanned requests and saved requests.
@@ -133,7 +133,7 @@ namespace Aspire.Hosting.AWS.LambdaEmulator.SampleRequests
         {
             using (var stream =
                 this.GetType().Assembly.GetManifestResourceStream(
-                    "Aspire.Hosting.AWS.LambdaEmulator.Resources.SampleRequests." + name))
+                    "Aspire.Hosting.AWS.LambdaServiceEmulator.Resources.SampleRequests." + name))
             using(var reader = new StreamReader(stream))
             {
                 return reader.ReadToEnd();

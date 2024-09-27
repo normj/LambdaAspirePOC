@@ -1,6 +1,4 @@
-﻿namespace Aspire.Hosting.AWS.Lambda;
-
-public enum HttpEventSourceType { HttpApi, RestApi}
+﻿namespace Aspire.Hosting.AWS.Lambda.WebFrontend;
 
 public enum APIGatewayType { HttpApi, RestApi }
 

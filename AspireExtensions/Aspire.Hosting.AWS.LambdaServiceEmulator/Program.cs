@@ -1,5 +1,5 @@
-using Aspire.Hosting.AWS.LambdaEmulator.Components;
-using Aspire.Hosting.AWS.LambdaEmulator.Services;
+using Aspire.Hosting.AWS.LambdaServiceEmulator.Components;
+using Aspire.Hosting.AWS.LambdaServiceEmulator.Services;
 using Blazored.Modal;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,11 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddSingleton<IRuntimeApiDataStore, RuntimeApiDataStore>();
+builder.Services.AddSingleton<ILambdaRuntimeDataStoreManager, LambdaRuntimeDataStoreManager>();
 builder.Services.AddControllers();
 builder.Services.AddBlazoredModal();
 builder.Services.AddHttpContextAccessor();
-
 
 var app = builder.Build();
 
