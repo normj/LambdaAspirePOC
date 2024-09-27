@@ -74,6 +74,8 @@ internal class RouteConfig
 
     internal static RouteConfig ChooseRouteConfig(IList<RouteConfig> routes, string method, string path)
     {
+        // TODO: Evaluate all of the route configs to determine the best match route config. Don't forget
+        // to handle {proxy+} wild cards.
         return routes.First()!;
     }
 }

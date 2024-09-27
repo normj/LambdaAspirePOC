@@ -1,7 +1,9 @@
 using Amazon.Lambda.APIGatewayEvents;
 using Aspire.Hosting.AWS.Lambda.WebFrontend;
 
-var builder = WebApplication.CreateBuilder(args);
+// TODO: Parse APIGateway type from command line arguments
+
+var builder = WebApplication.CreateBuilder();
 var app = builder.Build();
 
 var logger = app.Services.GetRequiredService<ILogger<Program>>();
@@ -11,6 +13,7 @@ app.Use(async (HttpContext ctx, Func<Task> _) =>
 {
     var routeConfig = RouteConfig.ChooseRouteConfig(routeConfigs, ctx.Request.Method, ctx.Request.Path);
 
+    // TODO: Handle APIGateway Type. Currently always using HttpApi, needs to handle RestApi and RestApiV2.
     var lambdaRequest = await Translators.TranslateToRequestAsync(ctx.Request);
 
     using var response = await routeConfig.HttpClient.PostAsJsonAsync("runtime/test-event-sync", lambdaRequest);
