@@ -10,8 +10,6 @@ public static class LambdaExtensions
 {
     public static IResourceBuilder<ProjectResource> AddLambdaFunction<TLambdaProject>(this IDistributedApplicationBuilder builder, string name) where TLambdaProject : ILambdaFunctionMetadata, new()
     {
-        builder.Services.TryAddLifecycleHook<LambdaResourcesLifecycleHook>();
-
         var metadata = new TLambdaProject();
 
         var serviceEmulator = AddOrGetLambdaServiceEmulatorResource(builder);
