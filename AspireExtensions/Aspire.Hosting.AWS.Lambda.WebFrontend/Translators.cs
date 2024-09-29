@@ -4,7 +4,7 @@ namespace Aspire.Hosting.AWS.Lambda.WebFrontend;
 
 public static class Translators
 {
-    public static async Task<APIGatewayHttpApiV2ProxyRequest> TranslateToRequestAsync(HttpRequest httpRequest)
+    public static async Task<APIGatewayHttpApiV2ProxyRequest> TranslateToRequestAsync(HttpRequest httpRequest, IDictionary<string, string> pathParameters)
     {
         // TODO: Handle all of the mapping from ASP.NET Core request to API Gateway request. That includes
         // grabbing resource path parameters.
@@ -21,6 +21,8 @@ public static class Translators
                 }
             }
         };        
+
+        lambdaRequest.PathParameters = pathParameters;
         
         lambdaRequest.RawPath = httpRequest.Path;
 

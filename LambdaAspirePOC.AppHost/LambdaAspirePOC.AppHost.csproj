@@ -1,23 +1,26 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
     <IsAspireHost>true</IsAspireHost>
     <UserSecretsId>78326466-c1bc-4667-bd5d-391bfa5c1419</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting.AppHost" Version="8.2.0" />
+	<PackageReference Include="Aspire.Hosting.Redis" Version="8.2.0" />  
+    <PackageReference Include="Aspire.Hosting.AWS" Version="8.2.0-preview.1.24428.5" />	  
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\AspireExtensions\Aspire.Hosting.AWS.Lambda\Aspire.Hosting.AWS.Lambda.csproj" IsAspireProjectResource="false" />
     <ProjectReference Include="..\ExecutableLambdaFunction\ExecutableLambdaFunction.csproj" />
     <ProjectReference Include="..\ClassLibraryLambdaFunction\ClassLibraryLambdaFunction.csproj" />
-    <ProjectReference Include="..\WebApiLambdaFunction\WebApiLambdaFunction.csproj" />	  
+    <ProjectReference Include="..\WebAddLambdaFunction\WebAddLambdaFunction.csproj" />
+    <ProjectReference Include="..\WebApiLambdaFunction\WebApiLambdaFunction.csproj" />
+    <ProjectReference Include="..\WebMinusLambdaFunction\WebMinusLambdaFunction.csproj" />	  
   </ItemGroup>
 
 </Project>

@@ -36,4 +36,22 @@ public class LambdaFunctions
 
         }
     }
+
+    public class WebAddLambdaFunction : LambdaFunctionMetadata
+    {
+        public WebAddLambdaFunction() :
+            base(@"C:\gitrepos\LambdaAspirePOC\WebAddLambdaFunction\WebAddLambdaFunction.csproj", "WebAddLambdaFunction", false)
+        {
+
+        }
+    }
+
+    public class WebMinusLambdaFunction : LambdaFunctionMetadata
+    {
+        public WebMinusLambdaFunction() :
+            base(@"C:\gitrepos\LambdaAspirePOC\WebMinusLambdaFunction\WebMinusLambdaFunction.csproj", "WebMinusLambdaFunction", false)
+        {
+
+        }
+    }
 }

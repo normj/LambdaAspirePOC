@@ -1,5 +1,7 @@
 using Amazon.Lambda.APIGatewayEvents;
 using Aspire.Hosting.AWS.Lambda.WebFrontend;
+using System.Text;
+using System.Text.Unicode;
 
 // TODO: Parse APIGateway type from command line arguments
 
@@ -11,12 +13,23 @@ var routeConfigs = RouteConfig.LoadEnvironmentRouteConfigs(logger);
 
 app.Use(async (HttpContext ctx, Func<Task> _) =>
 {
-    var routeConfig = RouteConfig.ChooseRouteConfig(routeConfigs, ctx.Request.Method, ctx.Request.Path);
+    var routeConfigResult = RouteConfig.ChooseRouteConfig(routeConfigs, ctx.Request.Method, ctx.Request.Path);
+
+    if (routeConfigResult == null)
+    {
+        const string notFoundResponse = "{\"message\":\"Not Found\"}";
+        var responseBytes = Encoding.UTF8.GetBytes(notFoundResponse);
+        ctx.Response.StatusCode = 404;
+        ctx.Response.ContentType = "application/json";
+        ctx.Response.ContentLength = responseBytes.Length;
+        await ctx.Response.Body.WriteAsync(responseBytes, 0, responseBytes.Length);
+        return;
+    }
 
     // TODO: Handle APIGateway Type. Currently always using HttpApi, needs to handle RestApi and RestApiV2.
-    var lambdaRequest = await Translators.TranslateToRequestAsync(ctx.Request);
+    var lambdaRequest = await Translators.TranslateToRequestAsync(ctx.Request, routeConfigResult.PathVariables);
 
-    using var response = await routeConfig.HttpClient.PostAsJsonAsync("runtime/test-event-sync", lambdaRequest);
+    using var response = await routeConfigResult.RouteConfig.HttpClient.PostAsJsonAsync("runtime/test-event-sync", lambdaRequest);
 
     if (!response.IsSuccessStatusCode)
     {

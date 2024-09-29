@@ -14,13 +14,11 @@ public static class LambdaExtensions
 
         var serviceEmulator = AddOrGetLambdaServiceEmulatorResource(builder);
 
-        //var project = new LambdaProjectResource(name);
-        //var lambdaResource = builder.AddResource<TLambdaProject>(project);
-
         IResourceBuilder<ProjectResource> resource;
         if (metadata.IsClassLibrary)
         {
-            resource = builder.AddProject<TLambdaProject>(name, "LambdaRuntimeClient");
+            var method = metadata.Handler.Split("::").Last();
+            resource = builder.AddProject<TLambdaProject>(name, "LambdaRuntimeClient_" + method);
         }
         else
         {

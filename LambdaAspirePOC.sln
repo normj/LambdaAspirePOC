@@ -22,6 +22,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aspire.Hosting.AWS.LambdaSe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LambdaAspirePOC.E2E.Tests", "LambdaAspirePOC.E2E.Tests\LambdaAspirePOC.E2E.Tests.csproj", "{7F65C847-D175-4D45-827C-14C4EA0878CC}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAddLambdaFunction", "WebAddLambdaFunction\WebAddLambdaFunction.csproj", "{6371DCE7-0E91-4D79-A228-841670C8A1E0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebMinusLambdaFunction", "WebMinusLambdaFunction\WebMinusLambdaFunction.csproj", "{13C96335-90CB-4185-8642-388564150004}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -64,6 +68,14 @@ Global
 		{7F65C847-D175-4D45-827C-14C4EA0878CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F65C847-D175-4D45-827C-14C4EA0878CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F65C847-D175-4D45-827C-14C4EA0878CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6371DCE7-0E91-4D79-A228-841670C8A1E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6371DCE7-0E91-4D79-A228-841670C8A1E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6371DCE7-0E91-4D79-A228-841670C8A1E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6371DCE7-0E91-4D79-A228-841670C8A1E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13C96335-90CB-4185-8642-388564150004}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13C96335-90CB-4185-8642-388564150004}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13C96335-90CB-4185-8642-388564150004}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13C96335-90CB-4185-8642-388564150004}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

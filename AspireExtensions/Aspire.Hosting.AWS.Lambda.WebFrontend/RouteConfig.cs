@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -72,10 +73,79 @@ internal class RouteConfig
         return routes;
     }
 
-    internal static RouteConfig ChooseRouteConfig(IList<RouteConfig> routes, string method, string path)
+    internal static ChooseRouteConfigResult? ChooseRouteConfig(IList<RouteConfig> routes, string method, string path)
     {
-        // TODO: Evaluate all of the route configs to determine the best match route config. Don't forget
-        // to handle {proxy+} wild cards.
-        return routes.First()!;
+        var methodEnum = Enum.Parse<Method>(method, true);
+
+        foreach(var route in routes)
+        {
+            // TODO: need to handle wild card proxy tokens in the path
+
+            if (route.HttpMethod != Method.Any && route.HttpMethod != methodEnum)
+            {
+                continue;
+            }
+
+            var pathTokens = path.Split('/');
+            var routeTokens = route.Path.Split('/');
+
+            if (TryRouteMatch(routeTokens, pathTokens, out var pathParameters))
+            {
+                return new ChooseRouteConfigResult(route, pathParameters);
+            }
+        }
+
+        return null;
+    }
+
+    internal class ChooseRouteConfigResult
+    {
+        internal ChooseRouteConfigResult(RouteConfig routeConfig, Dictionary<string, string> pathParameters)
+        {
+            RouteConfig = routeConfig;
+            PathVariables = pathParameters;
+        }
+
+        public RouteConfig RouteConfig { get; }
+
+        public Dictionary<string, string> PathVariables { get; }
+    }
+
+
+    internal static bool TryRouteMatch(string[] routeTokens, string[] pathTokens, [NotNullWhen(true)] out Dictionary<string, string>? pathParameters)
+    {
+        pathParameters = new Dictionary<string, string>();
+        for (int i = 0; i < routeTokens.Length; i++)
+        {
+            if (pathTokens.Length <= i)
+            {
+                pathParameters = null;
+                return false;
+            }
+            else if (TryPathVariable(routeTokens[i], out var pathVariable))
+            {
+                pathParameters[pathVariable] = pathTokens[i];
+            }
+            else if (!string.Equals(routeTokens[i], pathTokens[i], StringComparison.OrdinalIgnoreCase))
+            {
+                pathParameters = null;
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    internal static bool TryPathVariable(string routeToken, [NotNullWhen(true)] out string? pathParameters)
+    {
+        pathParameters = null;
+
+        routeToken = routeToken.Trim();
+        if (routeToken.Length > 2 && routeToken[0] == '{' && routeToken[routeToken.Length - 1] == '}')
+        {
+            pathParameters = routeToken.Substring(1, routeToken.Length - 2);
+            return true;
+        }
+        return false;
     }
 }
