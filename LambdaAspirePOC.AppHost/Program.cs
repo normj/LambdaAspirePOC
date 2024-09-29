@@ -8,16 +8,16 @@ var awsConfig = builder.AddAWSSDKConfig()
                         .WithRegion(RegionEndpoint.USWest2);
 
 
-builder.AddLambdaFunction<Projects.ExecutableLambdaFunction>("ToUpperLambdaFunction", "ExecutableLambdaFunction")
+builder.AddLambdaFunction<Projects.ExecutableLambdaFunction>("ToUpperLambdaFunction", handler: "ExecutableLambdaFunction")
         .WithReference(awsConfig);
 
-builder.AddLambdaFunction<Projects.ClassLibraryLambdaFunction>("ToLowerLambdaFunction", "ClassLibraryLambdaFunction::ClassLibraryLambdaFunction.Function::FunctionHandler")
+builder.AddLambdaFunction<Projects.ClassLibraryLambdaFunction>("ToLowerLambdaFunction", handler: "ClassLibraryLambdaFunction::ClassLibraryLambdaFunction.Function::FunctionHandler")
         .WithReference(awsConfig);
 
 // TODO: Get rid of the casts that are due to ClassLibrary and Executable projects returning different types.
-var rootWebFunction = builder.AddLambdaFunction<Projects.WebApiLambdaFunction>("RootLambdaFunction", "WebApiLambdaFunction") as IResourceBuilder<LambdaProjectResource>;
-var addFunction = builder.AddLambdaFunction<Projects.WebAddLambdaFunction>("AddLambdaFunction", "WebAddLambdaFunction") as IResourceBuilder<LambdaProjectResource>;
-var minusFunction = builder.AddLambdaFunction<Projects.WebMinusLambdaFunction>("MinusLambdaFunction", "WebMinusLambdaFunction") as IResourceBuilder<LambdaProjectResource>;
+var rootWebFunction = builder.AddLambdaFunction<Projects.WebApiLambdaFunction>("RootLambdaFunction", handler: "WebApiLambdaFunction") as IResourceBuilder<LambdaProjectResource>;
+var addFunction = builder.AddLambdaFunction<Projects.WebAddLambdaFunction>("AddLambdaFunction", handler: "WebAddLambdaFunction") as IResourceBuilder<LambdaProjectResource>;
+var minusFunction = builder.AddLambdaFunction<Projects.WebMinusLambdaFunction>("MinusLambdaFunction", handler: "WebMinusLambdaFunction") as IResourceBuilder<LambdaProjectResource>;
 
 
 builder.AddAPIGatewayEmulator("APIGatewayEmulator", APIGatewayType.HttpApi)
