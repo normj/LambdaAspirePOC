@@ -9,7 +9,7 @@ namespace Aspire.Hosting;
 
 public static class LambdaExtensions
 {
-    public static IResourceBuilder<ProjectResource> AddLambdaFunction<TLambdaProject>(this IDistributedApplicationBuilder builder, string name, string handler) where TLambdaProject : IProjectMetadata, new()
+    public static IResourceBuilder<ProjectResource> AddAWSLambdaFunction<TLambdaProject>(this IDistributedApplicationBuilder builder, string name, string handler) where TLambdaProject : IProjectMetadata, new()
     {
         var metadata = new TLambdaProject();
 
