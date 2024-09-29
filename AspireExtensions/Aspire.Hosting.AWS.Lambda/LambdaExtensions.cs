@@ -1,5 +1,6 @@
 ﻿using Aspire.Hosting.AWS.Lambda;
 using Aspire.Hosting.Lifecycle;
+using System.IO;
 using System.Net.Sockets;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -45,7 +46,15 @@ public static class LambdaExtensions
 
     public static IResourceBuilder<APIGatewayApiResource> AddAPIGatewayEmulator(this IDistributedApplicationBuilder builder, string name, APIGatewayType apiGatewayType)
     {
-        var apiGatewayEmulator = builder.AddResource(new APIGatewayApiResource(name)).ExcludeFromManifest();
+        var aspireExtensionsDirectory = FindAspireExtensionsDirectory();
+        if (aspireExtensionsDirectory == null)
+        {
+            throw new InvalidOperationException("The Lambda POC must be run from inside the Git repository to find the AspireExtensions directory");
+        }
+
+        var emulatorProjectDirectory = Path.Combine(aspireExtensionsDirectory, "Aspire.Hosting.AWS.Lambda.WebFrontend");
+
+        var apiGatewayEmulator = builder.AddResource(new APIGatewayApiResource(name, emulatorProjectDirectory)).ExcludeFromManifest();
         apiGatewayEmulator.WithEnvironment("ASPNETCORE_ENVIRONMENT", "Development");
 
         apiGatewayEmulator.WithArgs(context =>
@@ -102,10 +111,17 @@ public static class LambdaExtensions
         var serviceEmulator = builder.Resources.FirstOrDefault(x => x.TryGetAnnotationsOfType<LambdaEmulatorAnnotation>(out _)) as ExecutableResource;
         if (serviceEmulator == null)
         {
+            var aspireExtensionsDirectory = FindAspireExtensionsDirectory();
+            if (aspireExtensionsDirectory == null)
+            {
+                throw new InvalidOperationException("The Lambda POC must be run from inside the Git repository to find the AspireExtensions directory");
+            }
+
+            var emulatorProjectDirectory = Path.Combine(aspireExtensionsDirectory, "Aspire.Hosting.AWS.LambdaServiceEmulator");
             var serviceEmulatorBuilder = builder.AddExecutable($"Lambda-ServiceEmulator",
                                                     "dotnet",
                                                     // TODO Detect the working directory based on relative location from this Assembly.
-                                                    "C:\\gitrepos\\LambdaAspirePOC\\AspireExtensions\\Aspire.Hosting.AWS.LambdaServiceEmulator",
+                                                    emulatorProjectDirectory,
                                                     "exec",
                                                     "bin\\Debug\\net8.0\\Aspire.Hosting.AWS.LambdaServiceEmulator.dll")
                                     .ExcludeFromManifest();
@@ -133,5 +149,22 @@ public static class LambdaExtensions
         }
 
         return serviceEmulator;
+    }
+
+    private static string? FindAspireExtensionsDirectory()
+    {
+        var path = new DirectoryInfo(Directory.GetCurrentDirectory());
+        while (path != null)
+        {
+            var childPath = Path.Combine(path.FullName, "AspireExtensions");
+            if (Directory.Exists(childPath))
+            {
+                return childPath;
+            }
+
+            path = path.Parent;
+        }
+
+        return null;
     }
 }

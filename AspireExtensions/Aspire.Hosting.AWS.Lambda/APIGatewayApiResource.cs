@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Aspire.Hosting.AWS.Lambda;
 
-public class APIGatewayApiResource(string name) : ExecutableResource(name, 
-        "dotnet", 
-        "C:\\gitrepos\\LambdaAspirePOC\\AspireExtensions\\Aspire.Hosting.AWS.Lambda.WebFrontend"
+public class APIGatewayApiResource(string name, string emulatorProjectDirectory) : ExecutableResource(name, 
+        "dotnet",
+        emulatorProjectDirectory
         )
 {
 }
