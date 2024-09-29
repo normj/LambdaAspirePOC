@@ -47,7 +47,7 @@ public class E2ETests
 
         var invokeRequest = new InvokeRequest
         {
-            FunctionName = "ClassLibraryLambdaFunction",
+            FunctionName = "ToUpperLambdaFunction",
             Payload = "\"hello world\"",
             InvocationType = InvocationType.RequestResponse
         };

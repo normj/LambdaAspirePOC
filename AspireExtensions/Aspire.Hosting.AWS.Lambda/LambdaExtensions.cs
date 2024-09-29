@@ -8,16 +8,16 @@ namespace Aspire.Hosting;
 
 public static class LambdaExtensions
 {
-    public static IResourceBuilder<ProjectResource> AddLambdaFunction<TLambdaProject>(this IDistributedApplicationBuilder builder, string name) where TLambdaProject : ILambdaFunctionMetadata, new()
+    public static IResourceBuilder<ProjectResource> AddLambdaFunction<TLambdaProject>(this IDistributedApplicationBuilder builder, string name, string handler) where TLambdaProject : IProjectMetadata, new()
     {
         var metadata = new TLambdaProject();
 
         var serviceEmulator = AddOrGetLambdaServiceEmulatorResource(builder);
 
         IResourceBuilder<ProjectResource> resource;
-        if (metadata.IsClassLibrary)
+        if (handler.Contains("::"))
         {
-            var method = metadata.Handler.Split("::").Last();
+            var method = handler.Split("::").Last();
             resource = builder.AddProject<TLambdaProject>(name, "LambdaRuntimeClient_" + method);
         }
         else
