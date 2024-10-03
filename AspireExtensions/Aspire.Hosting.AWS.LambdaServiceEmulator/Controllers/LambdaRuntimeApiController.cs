@@ -53,6 +53,7 @@ public class LambdaRuntimeApiController : ControllerBase
         {
             while (evnt.EventStatus != IEventContainer.Status.Success && evnt.EventStatus != IEventContainer.Status.Failure)
             {
+                // TODO: Use real .NET monitoring APIs for state changes.
                 await Task.Delay(50);
             }
 

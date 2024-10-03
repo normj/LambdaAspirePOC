@@ -39,7 +39,7 @@ public static class LambdaExtensions
                     });
 
 
-        resource.WithAnnotation(new LambdaFunctionAnnotation());
+        resource.WithAnnotation(new LambdaFunctionAnnotation(handler));
 
         return resource;
     }
