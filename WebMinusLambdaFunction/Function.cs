@@ -7,7 +7,8 @@ var handler = (APIGatewayHttpApiV2ProxyRequest request, ILambdaContext context) 
 {
     var x = (int)Convert.ChangeType(request.PathParameters["x"], typeof(int));
     var y = (int)Convert.ChangeType(request.PathParameters["y"], typeof(int));
-    var sum = x - y;
+    var total = x - y;
+    context.Logger.LogInformation($"Subtracting {y} from {x} equals {total}");
     var response = new APIGatewayHttpApiV2ProxyResponse
     {
         StatusCode = 200,
@@ -15,7 +16,7 @@ var handler = (APIGatewayHttpApiV2ProxyRequest request, ILambdaContext context) 
             {
                 {"Content-Type", "application/json" }
             },
-        Body = sum.ToString()
+        Body = total.ToString()
     };
 
     return response;
