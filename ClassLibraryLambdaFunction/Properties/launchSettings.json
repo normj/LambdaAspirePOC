@@ -1,11 +1,5 @@
 {
   "profiles": {
-    "Mock Lambda Test Tool": {
-      "commandName": "Executable",
-      "commandLineArgs": "--port 5050",
-      "workingDirectory": ".\\bin\\$(Configuration)\\net8.0",
-      "executablePath": "%USERPROFILE%\\.dotnet\\tools\\dotnet-lambda-test-tool-8.0.exe"
-    },
     "LambdaRuntimeClient_FunctionHandler": {
       "commandName": "Executable",
       "commandLineArgs": "exec --depsfile ./ClassLibraryLambdaFunction.deps.json --runtimeconfig ./ClassLibraryLambdaFunction.runtimeconfig.json ../../../../AspireExtensions/LambdaHost/Amazon.Lambda.RuntimeSupport.dll ClassLibraryLambdaFunction::ClassLibraryLambdaFunction.Function::FunctionHandler",
